@@ -34,7 +34,7 @@ namespace day01
         // 208  A B    
         // 210    B      <---
 
-        // Since any sliding window and it's predecessor will
+        // Since any sliding window and its predecessor will
         // overlap by two numbers, we can discard those and only
         // compare the first number in the preceeding window
         // with the last number in the new current window
