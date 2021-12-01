@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace day02
 {
@@ -18,9 +19,9 @@ namespace day02
 
         private string[] ReadInputFile(string filename)
         {
-            string[] lines = File.ReadAllLines(filename);
+            var lines = File.ReadLines(filename);
 
-            return lines;
+            return lines.ToArray();
         }
     }
 }
