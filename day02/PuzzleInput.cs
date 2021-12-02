@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -6,22 +7,28 @@ namespace day02
 {
     public class PuzzleInput
     {
-        public string[] Example()
+        public NavStep[] Example()
         {
             return ReadInputFile("../../../example-input.txt");
         }
 
-        public string[] PartA()
+        public NavStep[] PartA()
         {
             return ReadInputFile("../../../parta-input.txt");
         }
 
 
-        private string[] ReadInputFile(string filename)
+        private NavStep[] ReadInputFile(string filename)
         {
+            List<NavStep> steps = new List<NavStep>();
+
             var lines = File.ReadLines(filename);
 
-            return lines.ToArray();
+            foreach(string line in lines)
+            {
+                steps.Add(new NavStep(line));
+            }
+            return steps.ToArray();
         }
     }
 }

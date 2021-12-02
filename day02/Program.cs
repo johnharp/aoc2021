@@ -7,9 +7,18 @@ namespace day02
         static void Main(string[] args)
         {
             PuzzleInput input = new PuzzleInput();
-            var exlines = input.Example();
+            var steps = input.PartA();
 
-            Console.WriteLine("Hello World!");
+            Nav nav = new Nav();
+
+            foreach (var step in steps)
+            {
+                nav.ApplyNavStep(step);
+            }
+
+            Console.Out.WriteLine($"Depth: {nav.Depth}");
+            Console.Out.WriteLine($"Horizontal Position: {nav.HorizontalPosition}");
+            Console.Out.WriteLine($"Product: {nav.Depth * nav.HorizontalPosition}");
         }
     }
 }
