@@ -11,7 +11,7 @@ namespace day03
             return ReadInputFile("../../../input-example.txt");
         }
 
-        public string[] PartA()
+        public string[] Puzzle()
         {
             return ReadInputFile("../../../input.txt");
         }

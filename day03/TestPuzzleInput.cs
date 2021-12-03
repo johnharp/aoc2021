@@ -12,7 +12,7 @@ namespace day03
             PuzzleInput input = new PuzzleInput();
             var lines = input.Example();
 
-            Assert.AreEqual(9999, lines.Length);
+            Assert.AreEqual(12, lines.Length);
         }
     }
 }
