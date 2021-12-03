@@ -1,27 +1,28 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace day03
 {
     public class PuzzleInput
     {
-        public string[] Example()
+        public List<String> ExampleInput()
         {
             return ReadInputFile("../../../input-example.txt");
         }
 
-        public string[] Puzzle()
+        public List<String> Input()
         {
             return ReadInputFile("../../../input.txt");
         }
 
 
-        private string[] ReadInputFile(string filename)
+        private List<String> ReadInputFile(string filename)
         {
             var lines = File.ReadLines(filename);
 
-            return lines.ToArray();
+            return lines.ToList();
         }
     }
 }

@@ -12,11 +12,9 @@ namespace day03
         static void RunExample()
         {
             PuzzleInput input = new PuzzleInput();
-            var lines = input.Example();
+            var lines = input.Input();
 
             Tally t = new Tally(lines);
-            int gamma = t.gamma;
-            int epsilon = t.epsilon;
 
             Console.Out.WriteLine($"Gamma = {t.gamma}");
             Console.Out.WriteLine($"Epsilon = {t.epsilon}");
@@ -24,9 +22,9 @@ namespace day03
 
             Console.Out.WriteLine();
 
-            Console.Out.WriteLine($"Oxygen Gen Rating = {t.oxGenRating}");
-            Console.Out.WriteLine($"CO2 Scrubber Rating = {t.co2ScrubRating}");
-            Console.Out.WriteLine($"Their product = {t.oxGenRating * t.co2ScrubRating}");
+            //Console.Out.WriteLine($"Oxygen Gen Rating = {t.oxGenRating}");
+            //Console.Out.WriteLine($"CO2 Scrubber Rating = {t.co2ScrubRating}");
+            //Console.Out.WriteLine($"Their product = {t.oxGenRating * t.co2ScrubRating}");
 
 
         }

@@ -10,15 +10,15 @@ namespace day03
         public void TestTallyClass()
         {
             PuzzleInput input = new PuzzleInput();
-            string[] lines = input.Example();
+            var lines = input.ExampleInput();
 
             Tally t = new Tally(lines);
 
-            Assert.AreEqual(5, t.zeroCounts[0]);
-            Assert.AreEqual(7, t.oneCounts[0]);
+            Assert.AreEqual(5, t.TallyBitPositions[0].zerosCount);
+            Assert.AreEqual(7, t.TallyBitPositions[0].onesCount);
 
-            Assert.AreEqual(7, t.zeroCounts[4]);
-            Assert.AreEqual(5, t.oneCounts[4]);
+            Assert.AreEqual(7, t.TallyBitPositions[4].zerosCount);
+            Assert.AreEqual(5, t.TallyBitPositions[4].onesCount);
 
             Assert.AreEqual(22, t.gamma);
             Assert.AreEqual(9, t.epsilon);

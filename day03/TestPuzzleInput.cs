@@ -10,9 +10,9 @@ namespace day03
         public void TestExampleInput()
         {
             PuzzleInput input = new PuzzleInput();
-            var lines = input.Example();
+            var lines = input.ExampleInput();
 
-            Assert.AreEqual(12, lines.Length);
+            Assert.AreEqual(12, lines.Count);
         }
     }
 }
