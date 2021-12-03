@@ -22,9 +22,24 @@ namespace day03
 
             Console.Out.WriteLine();
 
-            //Console.Out.WriteLine($"Oxygen Gen Rating = {t.oxGenRating}");
-            //Console.Out.WriteLine($"CO2 Scrubber Rating = {t.co2ScrubRating}");
-            //Console.Out.WriteLine($"Their product = {t.oxGenRating * t.co2ScrubRating}");
+            for(int i = 0; i < t.lineLength; i++)
+            {
+                t.RemoveInvalidOxGenRatingLinesAtBitPos(i);
+                if (t.numLines == 1) break;
+            }
+
+            var oxGenValue = t.TallyLines[0].intValue;
+            Console.Out.WriteLine($"Oxygen Gen Rating = {oxGenValue}");
+
+            t = new Tally(lines);
+            for (int i = 0; i < t.lineLength; i++)
+            {
+                t.RemoveInvalidCo2ScrubRatingLinesAtBitPos(i);
+                if (t.numLines == 1) break;
+            }
+            var co2ScrubValue = t.TallyLines[0].intValue;
+            Console.Out.WriteLine($"CO2 Scrubber Rating = {co2ScrubValue}");
+            Console.Out.WriteLine($"Their product = {oxGenValue * co2ScrubValue}");
 
 
         }

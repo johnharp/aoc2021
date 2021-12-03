@@ -49,6 +49,22 @@ namespace day03
             ComputeBitPositions();
         }
 
+        public void RemoveLine(TallyLine lineToRemove)
+        {
+            for (int i = 0; i < lineLength; i++)
+            {
+                TallyBitPosition bitPos = TallyBitPositions[i];
+
+                if (lineToRemove.bits[i] == '1') bitPos.onesCount--;
+                if (lineToRemove.bits[i] == '0') bitPos.zerosCount--;
+
+                ComputeMostAndLeastCommonForBitPosition(i);
+            }
+            numLines--;
+            TallyLines.Remove(lineToRemove);
+        }
+
+
         private void HandleLines(List<String> lines)
         {
             TallyLines = new List<TallyLine>();
@@ -69,10 +85,30 @@ namespace day03
             numLines = TallyLines.Count;
         }
 
+        private void ComputeMostAndLeastCommonForBitPosition(int i)
+        {
+            TallyBitPosition bitPos = TallyBitPositions[i];
+            if (bitPos.onesCount > bitPos.zerosCount)
+            {
+                bitPos.mostCommon = '1';
+                bitPos.leastCommon = '0';
+            }
+            else if (bitPos.zerosCount > bitPos.onesCount)
+            {
+                bitPos.mostCommon = '0';
+                bitPos.leastCommon = '1';
+            }
+            else
+            {
+                bitPos.mostCommon = '=';
+                bitPos.leastCommon = '=';
+            }
+        }
+
         private void ComputeBitPositions()
         {
             TallyBitPositions = new TallyBitPosition[lineLength];
-            for(int i = 0; i<lineLength; i++)
+            for (int i = 0; i < lineLength; i++)
             {
                 TallyBitPositions[i] = new TallyBitPosition();
             }
@@ -92,23 +128,62 @@ namespace day03
 
             for (int i = 0; i < lineLength; i++)
             {
-                TallyBitPosition bitPos = TallyBitPositions[i];
-                if (bitPos.onesCount > bitPos.zerosCount)
-                {
-                    bitPos.mostCommon = '1';
-                    bitPos.leastCommon = '0';
-                }
-                else if (bitPos.zerosCount > bitPos.onesCount)
-                {
-                    bitPos.mostCommon = '0';
-                    bitPos.leastCommon = '1';
-                }
-                else
-                {
-                    bitPos.mostCommon = '=';
-                    bitPos.leastCommon = '=';
-                }
+                ComputeMostAndLeastCommonForBitPosition(i);
             }
+        }
+
+        public void RemoveInvalidOxGenRatingLinesAtBitPos(int n)
+        {
+            var invalidItems = DetermineInvalidOxGenRatingItemsAtBitPos(n);
+            foreach(var invalidItem in invalidItems)
+            {
+                RemoveLine(invalidItem);
+            }
+        }
+
+        public void RemoveInvalidCo2ScrubRatingLinesAtBitPos(int n)
+        {
+            var invalidItems = DetermineInvalidCo2ScrubRatingItemsAtBitPos(n);
+            foreach (var invalidItem in invalidItems)
+            {
+                RemoveLine(invalidItem);
+            }
+        }
+
+        private bool OxGenRatingValidAtBitPos(TallyLine l, int n)
+        {
+            return ((l.bits[n] == TallyBitPositions[n].mostCommon) ||
+                (l.bits[n] == '1' && TallyBitPositions[n].mostCommon == '='));
+        }
+
+        private bool Co2ScrubRatingValidAtBitPos(TallyLine l, int n)
+        {
+            return ((l.bits[n] == TallyBitPositions[n].leastCommon) ||
+                (l.bits[n] == '0' && TallyBitPositions[n].mostCommon == '='));
+        }
+
+        private List<TallyLine> DetermineInvalidOxGenRatingItemsAtBitPos(int n)
+        {
+            var invalidItems = new List<TallyLine>();
+
+            foreach(TallyLine l in TallyLines)
+            {
+                if (!OxGenRatingValidAtBitPos(l, n)) invalidItems.Add(l);
+            }
+
+            return invalidItems;
+        }
+
+        private List<TallyLine> DetermineInvalidCo2ScrubRatingItemsAtBitPos(int n)
+        {
+            var invalidItems = new List<TallyLine>();
+
+            foreach (TallyLine l in TallyLines)
+            {
+                if (!Co2ScrubRatingValidAtBitPos(l, n)) invalidItems.Add(l);
+            }
+
+            return invalidItems;
         }
     }
 }

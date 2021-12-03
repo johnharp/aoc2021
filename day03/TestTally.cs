@@ -22,6 +22,16 @@ namespace day03
 
             Assert.AreEqual(22, t.gamma);
             Assert.AreEqual(9, t.epsilon);
+
+            Assert.AreEqual(12, t.numLines);
+
+            t.RemoveLine(t.TallyLines[1]); // line removed looks like: 11110
+
+            Assert.AreEqual(5, t.TallyBitPositions[0].zerosCount);
+            Assert.AreEqual(6, t.TallyBitPositions[0].onesCount);
+            Assert.AreEqual(11, t.numLines);
+
+
         }
     }
 }
