@@ -32,7 +32,19 @@ namespace day04
                 i += 6;
             }
 
-            Console.Out.WriteLine("Loaded");
+        }
+
+        public bool AnyCardWin()
+        {
+            foreach (var card in Cards)
+            {
+                if (card.win)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
