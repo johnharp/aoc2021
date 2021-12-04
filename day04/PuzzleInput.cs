@@ -8,7 +8,7 @@ namespace day04
     public class PuzzleInput
     {
         public String[] CalledNumbers;
-        public List<Card> Cards;
+        public List<Board> Boards;
 
         public PuzzleInput(string filename)
         {
@@ -17,28 +17,28 @@ namespace day04
 
             int i = 2;
 
-            Cards = new List<Card>();
+            Boards = new List<Board>();
 
             while (i < lines.Length)
             {
-                Card card = new Card(
+                Board board = new Board(
                     lines[i],
                     lines[i + 1],
                     lines[i + 2],
                     lines[i + 3],
                     lines[i + 4]);
-                Cards.Add(card);
+                Boards.Add(board);
                 
                 i += 6;
             }
 
         }
 
-        public bool AnyCardWin()
+        public bool AnyBoardWin()
         {
-            foreach (var card in Cards)
+            foreach (var board in Boards)
             {
-                if (card.win)
+                if (board.win)
                 {
                     return true;
                 }

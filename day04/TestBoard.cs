@@ -4,12 +4,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace day04
 {
     [TestClass]
-    public class TestCard
+    public class TestBoard
     {
         [TestMethod]
-        public void TestCardConstructor()
+        public void TestBoardConstructor()
         {
-            var c = new Card(
+            var c = new Board(
                 "14 21 17 24  4",
                 "10 16 15  9 19",
                 "18  8 23 26 20",
@@ -23,7 +23,7 @@ namespace day04
         [TestMethod]
         public void TestWin()
         {
-            var c = new Card(
+            var c = new Board(
                 "14 21 17 24  4",
                 "10 16 15  9 19",
                 "18  8 23 26 20",

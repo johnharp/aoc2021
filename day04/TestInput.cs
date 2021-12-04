@@ -13,7 +13,7 @@ namespace day04
             PuzzleInput input = new PuzzleInput("input-example.txt");
 
             Assert.AreEqual(27, input.CalledNumbers.Length);
-            Assert.AreEqual(3, input.Cards.Count);
+            Assert.AreEqual(3, input.Boards.Count);
         }
     }
 }

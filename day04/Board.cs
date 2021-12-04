@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace day04
 {
-    public class Card
+    public class Board
     {
         public string[][] values;
         public bool[][] marks;
@@ -11,7 +11,7 @@ namespace day04
         public int score;
         public bool win;
 
-        public Card(
+        public Board(
             string l1,
             string l2,
             string l3,
@@ -46,7 +46,7 @@ namespace day04
                 }
             }
 
-            // only compute the score if this card hasn't already won
+            // only compute the score if this board hasn't already won
             if (!win && IsWin())
             {
                 int numValue = int.Parse(num);

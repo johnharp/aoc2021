@@ -9,25 +9,25 @@ namespace day04
         {
             PuzzleInput input = new PuzzleInput("input.txt");
 
-            Card firstWinner = null;
-            Card mostRecentWinner = null;
+            Board firstWinner = null;
+            Board mostRecentWinner = null;
 
             foreach(var num in input.CalledNumbers)
             {
-                foreach(var card in input.Cards)
+                foreach(var board in input.Boards)
                 {
-                    if (card.MarkNumber(num))
+                    if (board.MarkNumber(num))
                     {
-                        if (firstWinner == null) firstWinner = card;
-                        mostRecentWinner = card;
+                        if (firstWinner == null) firstWinner = board;
+                        mostRecentWinner = board;
                     }
                 }
             }
 
             Console.Out.WriteLine(
-                $"First card to win has score: {firstWinner.score}");
+                $"First board to win has score: {firstWinner.score}");
             Console.Out.WriteLine(
-                $"Last card to win has score: {mostRecentWinner.score}");
+                $"Last board to win has score: {mostRecentWinner.score}");
         }
     }
 }
