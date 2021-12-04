@@ -10,10 +10,9 @@ namespace day04
         [TestMethod]
         public void TestExampleInput()
         {
-            PuzzleInput input = new PuzzleInput();
-            List<String> lines = input.ExampleInput();
+            PuzzleInput input = new PuzzleInput("input-example");
 
-            Assert.AreEqual(0, lines.Count);
+            Assert.AreEqual(26, input.CalledNumbers.Length);
         }
     }
 }

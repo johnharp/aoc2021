@@ -7,22 +7,32 @@ namespace day04
 {
     public class PuzzleInput
     {
-        public List<String> ExampleInput()
+        public String[] CalledNumbers;
+        public List<Card> Cards;
+
+        public PuzzleInput(string filename)
         {
-            return ReadInputFile("../../../input-example.txt");
-        }
+            string[] lines = File.ReadLines($"../../../{filename}").ToArray();
+            CalledNumbers = lines[0].Split(",");
 
-        public List<String> Input()
-        {
-            return ReadInputFile("../../../input.txt");
-        }
+            int i = 2;
 
+            Cards = new List<Card>();
 
-        private List<String> ReadInputFile(string filename)
-        {
-            var lines = File.ReadLines(filename);
+            while (i < lines.Length)
+            {
+                Card card = new Card(
+                    lines[i],
+                    lines[i + 1],
+                    lines[i + 2],
+                    lines[i + 3],
+                    lines[i + 4]);
+                Cards.Add(card);
+                
+                i += 6;
+            }
 
-            return lines.ToList();
+            Console.Out.WriteLine("Loaded");
         }
     }
 }

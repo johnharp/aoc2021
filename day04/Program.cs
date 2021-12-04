@@ -7,8 +7,8 @@ namespace day04
     {
         static void Main(string[] args)
         {
-            PuzzleInput input = new PuzzleInput();
-            List<String> lines = input.ExampleInput();
+            PuzzleInput input = new PuzzleInput("input-example.txt");
+            Console.Out.WriteLine(input.CalledNumbers);
 
             
         }
