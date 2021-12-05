@@ -6,7 +6,17 @@ namespace day05
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            PuzzleInput input = new PuzzleInput("input-example.txt");
+
+            Map m = new Map(input.MaxX, input.MaxY);
+            foreach (var seg in input.Segments)
+            {
+                m.AddSegment(seg);
+            }
+
+            Console.Out.WriteLine(
+                $"Number greater than 1 = {m.CountValuesGreaterThan(1)}");
+
         }
     }
 }
