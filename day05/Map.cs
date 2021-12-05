@@ -30,6 +30,10 @@ namespace day05
             if (s.P2.y > s.P1.y) dy = 1;
             if (s.P2.y < s.P1.y) dy = -1;
 
+            // only consider horizontal or vertical
+            // lines -- bail if changing in both x and y
+            if (dx != 0 && dy != 0) return;
+
             Point p = new Point(s.P1.x, s.P1.y);
 
             while (p.x != s.P2.x ||

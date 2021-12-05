@@ -6,7 +6,7 @@ namespace day05
     {
         static void Main(string[] args)
         {
-            PuzzleInput input = new PuzzleInput("input-example.txt");
+            PuzzleInput input = new PuzzleInput("input.txt");
 
             Map m = new Map(input.MaxX, input.MaxY);
             foreach (var seg in input.Segments)
