@@ -11,8 +11,6 @@ namespace day06
         {
             PuzzleInput input = new PuzzleInput("input-example.txt");
 
-            Assert.AreEqual("a", input.Lines[0]);
-            Assert.AreEqual("b", input.Lines[1]);
         }
     }
 }

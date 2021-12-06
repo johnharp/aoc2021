@@ -7,7 +7,7 @@ namespace day06
 {
     public class PuzzleInput
     {
-        public List<String> Lines;
+        public List<int> Values = new List<int>();
 
         public PuzzleInput(string filename)
         {
@@ -16,7 +16,12 @@ namespace day06
 
         private void ReadInputFile(string filename)
         {
-            Lines = File.ReadLines(filename).ToList();
+            List<String> Lines = File.ReadLines(filename).ToList();
+            string[] strings = Lines[0].Split(",");
+            foreach(var s in strings) {
+                int value = int.Parse(s);
+                Values.Add(value);
+            }
         }
     }
 }
