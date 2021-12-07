@@ -9,6 +9,7 @@ namespace day07
     {
         public List<String> Lines;
 
+
         public PuzzleInput(String filename)
         {
             ReadInputFile($"../../../{filename}");

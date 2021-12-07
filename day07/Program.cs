@@ -6,10 +6,11 @@ namespace day07
     {
         static void Main(string[] args)
         {
-            String filename = "input-example.txt";
+            String filename = "input.txt";
             PuzzleInput input = new PuzzleInput(filename);
 
-            
+            Tally t = new Tally(input.Lines);
+            t.Dump();
         }
     }
 }
