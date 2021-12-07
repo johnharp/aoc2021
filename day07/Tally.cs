@@ -63,6 +63,54 @@ namespace day07
             }
         }
 
+        public long FuelToAlignToPosition(long p)
+        {
+            long fuel = 0;
+
+            // compute fuel usage for those to the left of position
+            // p to move to position p.
+            // this will include positions [0, 1, 2, ..., p-1]
+            // count them as offsets to the left of p
+            // from offset 1 (p - 1) down to 0 (p - p)
+            for (int i = 1; i <= p; i++)
+            {
+                fuel += CountAt[p - i] * i;
+            }
+
+            for (int i = 1; i <= MaxValue-p; i++)
+            {
+                fuel += CountAt[p + i] * i;
+            }
+
+            return fuel;
+        }
+
+        public long FuelToAlignToPositionPart2(long p)
+        {
+            long fuel = 0;
+
+            // compute fuel usage for those to the left of position
+            // p to move to position p.
+            // this will include positions [0, 1, 2, ..., p-1]
+            // count them as offsets to the left of p
+            // from offset 1 (p - 1) down to 0 (p - p)
+            for (int i = 1; i <= p; i++)
+            {
+                long cost = 0;
+                for (long j = 1; j<=i; j++) cost += j;
+                fuel += CountAt[p - i] * cost;
+            }
+
+            for (int i = 1; i <= MaxValue - p; i++)
+            {
+                long cost = 0;
+                for (long j = 1; j <= i; j++) cost += j;
+                fuel += CountAt[p + i] * cost;
+            }
+
+            return fuel;
+        }
+
         public void Dump()
         {
             long usage = FuelUsageAtZero;
