@@ -50,17 +50,20 @@ namespace day08
         private static void Part2(PuzzleInput input)
         {
             Console.Out.WriteLine("Part 2 -");
+            long v = 0;
             foreach (var line in input.Lines)
             {
                 string[] patterns;
                 string[] outputs;
 
                 (patterns, outputs) = SplitLine(line);
-                Part2Line(patterns, outputs);
+                v += Part2Line(patterns, outputs);
             }
+
+            Console.Out.WriteLine($"SUM: {v}");
         }
 
-        private static void Part2Line(string[] patterns, string[] outputs)
+        private static long Part2Line(string[] patterns, string[] outputs)
         {
             // facts dictionary has:
             //   key = a signal letter (a, b, c, d, e, f, or g)
@@ -70,7 +73,9 @@ namespace day08
             //           it would have a single segment letter, ex. "b"
             Dictionary<string, string> facts = InitialFacts();
 
-            WriteLine(patterns, outputs);
+            Dictionary<string, string> segmentTrans = SegmentTrans();
+
+            //WriteLine(patterns, outputs);
 
             // "1" is the only number displayed using 2 segments
             string signalsForOne = FindPatternOfLength(2, patterns);
@@ -182,11 +187,43 @@ namespace day08
             }
 
 
-            //ApplyRuleFor1(patterns, facts);
-            //ApplyRuleFor7(patterns, facts);
-            //ApplyRuleFor1And7(patterns, facts);
-            WriteFacts(facts);
+            //WriteFacts(facts);
 
+            long value = Output(outputs, facts, segmentTrans);
+            Console.Out.WriteLine(value);
+            return value;
+
+        }
+
+        private static long Output(string[] outputs, Dictionary<String, String> facts,
+            Dictionary<string, string> tran)
+        {
+            long v = 0;
+            string digits = "";
+            foreach(var output in outputs)
+            {
+                string digit = TranslateOutput(output, facts, tran);
+                digits += digit;
+            }
+
+            v = long.Parse(digits);
+
+            return v;
+        }
+
+        private static string TranslateOutput(string output, Dictionary<String, String> facts,
+            Dictionary<string, string> tran)
+        {
+            string translatedPattern = "";
+            foreach(var c in output)
+            {
+                string key = new string(c, 1);
+                string translatedSignal = facts[key];
+                translatedPattern += translatedSignal;
+            }
+            translatedPattern = String.Concat(translatedPattern.OrderBy(c => c));
+            string displayedDigit = tran[translatedPattern];
+            return displayedDigit;
         }
 
         // split apart an input line
@@ -401,11 +438,30 @@ namespace day08
             // of the segments
             string[] signalNames = "abcdefg"
                 .Select(x => new String(x, 1)).ToArray();
-            foreach(string signalName in signalNames)
+            foreach (string signalName in signalNames)
             {
                 facts[signalName] = "abcdefg";
             }
             return facts;
+        }
+
+        private static Dictionary<string, string> SegmentTrans()
+        {
+            var d = new Dictionary<string, string>();
+
+            d["abcefg"]     = "0";
+            d["cf"]         = "1";
+            d["acdeg"]      = "2";
+            d["acdfg"]      = "3";
+            d["bcdf"]       = "4";
+            d["abdfg"]      = "5";
+            d["abdefg"]     = "6";
+            d["acf"]        = "7";
+            d["abcdefg"]    = "8";
+            d["abcdfg"]     = "9";
+
+
+            return d;
         }
     }
 }
