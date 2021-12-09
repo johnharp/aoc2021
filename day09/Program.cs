@@ -6,6 +6,11 @@ namespace day09
     {
         static void Main(string[] args)
         {
+            PuzzleInput input = new PuzzleInput("input.txt");
+            Map m = new Map(input.Lines);
+
+            long sum = m.SumRiskLevels();
+            Console.Out.WriteLine($"Total risk level: {sum}");
             
         }
     }
