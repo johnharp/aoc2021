@@ -24,9 +24,23 @@ namespace day11
             }
         }
 
-        public void Step()
+        public int Step()
         {
+            int totalNumFlashes = 0;
+
             IncAll();
+            int numFlashesThisCheck;
+
+            numFlashesThisCheck = CheckAllForFlash();
+            totalNumFlashes += numFlashesThisCheck;
+
+            while(numFlashesThisCheck > 0)
+            {
+                numFlashesThisCheck = CheckAllForFlash();
+                totalNumFlashes += numFlashesThisCheck;
+            }
+
+            return totalNumFlashes;
         }
 
         public int CheckAllForFlash()
@@ -50,13 +64,35 @@ namespace day11
 
         public void Flash(int col, int row)
         {
-            // inc neighbors
+            // Increment all neighbors
+            for(int dc = -1; dc <= 1; dc++)
+            {
+                for (int dr = -1; dr <=1; dr++)
+                {
+                    IncIfNotZero(col + dc, row + dr);
+                }
+            }
+
             values[col][row] = 0;
+        }
+
+        public void IncIfNotZero(int col, int row)
+        {
+            if (col >= 0 && col <= 9 &&
+                row >= 0 && row <= 9 &&
+                values[col][row] != 0)
+            {
+                values[col][row]++;
+            }
         }
 
         public void Inc(int col, int row)
         {
-            values[col][row]++;
+            if (col >= 0 && col <= 9 &&
+                row >= 0 && row <= 9)
+            {
+                values[col][row]++;
+            }
         }
 
         public void IncAll()
