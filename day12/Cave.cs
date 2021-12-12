@@ -16,7 +16,7 @@ namespace day12
             Caves[Name] = this;
         }
 
-        public int CountPaths(List<Cave> closedCaves)
+        public int CountPaths(List<Cave> closedCaves, Cave oneExceptionClosedCave)
         {
             int numpaths = 0;
 
@@ -36,7 +36,8 @@ namespace day12
             foreach(var cave in this.ConnectedCaves)
             {
                 List<Cave> subClosedCaves = new List<Cave>(closedCaves);
-                if (!Char.IsUpper(this.Name[0]) &&
+                 
+                if (Char.IsLower(this.Name[0]) &&
                     !subClosedCaves.Contains(this))
                 {
                     subClosedCaves.Add(this);
@@ -44,7 +45,14 @@ namespace day12
 
                 if (!subClosedCaves.Contains(cave))
                 {
-                    numpaths += cave.CountPaths(subClosedCaves);
+                    numpaths += cave.CountPaths(subClosedCaves, oneExceptionClosedCave);
+                }
+                else if (subClosedCaves.Contains(cave) &&
+                    cave.Name != "start" &&
+                    cave.Name != "end" &&
+                    oneExceptionClosedCave == null)
+                {
+                    numpaths += cave.CountPaths(subClosedCaves, cave);
                 }
             }
 

@@ -15,8 +15,9 @@ namespace day12
             Cave start = Cave.Caves["start"];
 
             List<Cave> closedCaves = new List<Cave>();
+            Cave oneExceptionClosedCave = null;
 
-            int numpaths = start.CountPaths(closedCaves);
+            int numpaths = start.CountPaths(closedCaves, oneExceptionClosedCave);
 
             Console.Out.WriteLine($"Total paths = {numpaths}");
         }
