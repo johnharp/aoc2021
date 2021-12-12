@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace day12
 {
@@ -6,14 +7,18 @@ namespace day12
     {
         static void Main(string[] args)
         {
-            string filename = "input-example1.txt";
+            string filename = "input.txt";
             PuzzleInput input = new PuzzleInput(filename);
-            foreach(var line in input.Lines)
-            {
-                Cave.ParsePath(line);
-            }
-
+            Cave.ParseInput(input);
             Cave.DumpAll();
+
+            Cave start = Cave.Caves["start"];
+
+            List<Cave> closedCaves = new List<Cave>();
+
+            int numpaths = start.CountPaths(closedCaves);
+
+            Console.Out.WriteLine($"Total paths = {numpaths}");
         }
     }
 }

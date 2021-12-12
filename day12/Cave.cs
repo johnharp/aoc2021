@@ -16,7 +16,51 @@ namespace day12
             Caves[Name] = this;
         }
 
-        public static void ParsePath(string path)
+        public int CountPaths(List<Cave> closedCaves)
+        {
+            int numpaths = 0;
+
+            if (this.Name == "end")
+            {
+                Console.WriteLine("end");
+                return 1;
+            }
+            else
+            {
+                Console.Write($"{this.Name},");
+            }
+
+
+
+
+            foreach(var cave in this.ConnectedCaves)
+            {
+                List<Cave> subClosedCaves = new List<Cave>(closedCaves);
+                if (!Char.IsUpper(this.Name[0]) &&
+                    !subClosedCaves.Contains(this))
+                {
+                    subClosedCaves.Add(this);
+                }
+
+                if (!subClosedCaves.Contains(cave))
+                {
+                    numpaths += cave.CountPaths(subClosedCaves);
+                }
+            }
+
+            return numpaths;
+        }
+
+        public static void ParseInput(PuzzleInput input)
+        {
+            foreach (var line in input.Lines)
+            {
+                Cave.ParsePath(line);
+            }
+        }
+
+
+        private static void ParsePath(string path)
         {
             string[] parts = path.Split("-");
             string name1 = parts[0];
