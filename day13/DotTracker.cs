@@ -5,11 +5,11 @@ namespace day13
 {
     public class DotTracker
     {
-        int initialMinX = int.MaxValue;
-        int initialMaxX = int.MinValue;
+        int minx = int.MaxValue;
+        int maxx = int.MinValue;
 
-        int initialMinY = int.MaxValue;
-        int initialMaxY = int.MinValue;
+        int miny = int.MaxValue;
+        int maxy = int.MinValue;
 
         public List<Dot> Dots = new List<Dot>();
 
@@ -59,11 +59,11 @@ namespace day13
             int x = int.Parse(parts[0]);
             int y = int.Parse(parts[1]);
 
-            if (x < initialMinX) initialMinX = x;
-            if (x > initialMaxX) initialMaxX = x;
+            if (x < minx) minx = x;
+            if (x > maxx) maxx = x;
 
-            if (y < initialMinY) initialMinY = y;
-            if (y > initialMaxY) initialMaxY = y;
+            if (y < miny) miny = y;
+            if (y > maxy) maxy = y;
 
             Dot newdot = new Dot(x, y);
             Dots.Add(newdot);
@@ -132,12 +132,12 @@ namespace day13
             Console.WriteLine($"There are {Dots.Count} dots");
         }
 
-        public void DumpMaxValues()
+        public void RecomputeMaxValues()
         {
-            int maxx = int.MinValue;
-            int maxy = int.MinValue;
-            int minx = int.MaxValue;
-            int miny = int.MaxValue;
+            maxx = int.MinValue;
+            maxy = int.MinValue;
+            minx = int.MaxValue;
+            miny = int.MaxValue;
 
             foreach (var d in Dots)
             {
@@ -146,7 +146,6 @@ namespace day13
                 if (d.x < minx) minx = d.x;
                 if (d.y < miny) miny = d.y;
             }
-            Console.WriteLine($"X values [{minx} - {maxx}], Y values [{miny} - {maxy}]");
         }
 
         public int CountDotsWithXY(int x, int y)
@@ -170,6 +169,8 @@ namespace day13
             {
                 FoldDotAroundY(d, yfoldval);
             }
+
+            RecomputeMaxValues();
         }
 
         public void FoldAroundX(int xfoldval)
@@ -181,11 +182,45 @@ namespace day13
             {
                 FoldDotAroundX(d, xfoldval);
             }
+
+            RecomputeMaxValues();
         }
 
         public void DumpAllDots()
         {
             DumpDotList(Dots);
+        }
+
+        public void Print()
+        {
+            char[][] buffer = new char[maxy + 1][];
+            for (int r = 0; r<= maxy; r++)
+            {
+                buffer[r] = new char[maxx + 1];
+            }
+
+            for (int r = 0; r < buffer.Length; r++)
+            {
+                for (int c = 0; c < buffer[r].Length; c++)
+                {
+                    buffer[r][c] = '.';
+                }
+            }
+
+            foreach (Dot d in Dots)
+            {
+                buffer[d.y][d.x] = '#';
+            }
+
+
+            for (int r = 0; r < buffer.Length; r++)
+            {
+                for (int c = 0; c < buffer[r].Length; c++)
+                {
+                    Console.Write(buffer[r][c]);
+                }
+                Console.WriteLine();
+            }
         }
 
         public void DumpDotList(List<Dot> l)

@@ -13,15 +13,14 @@ namespace day13
             DotTracker tracker = new DotTracker();
             tracker.CreateDots(input);
 
-            tracker.DumpDotCount();
 
-            tracker.DoFold(input.FoldLines[0]);
-            tracker.DumpDotCount();
-
-            //tracker.DoFold(input.FoldLines[1]);
-
-            //tracker.DoFolds(input);
+            // Part 1
+            //tracker.DoFold(input.FoldLines[0]);
             //tracker.DumpDotCount();
+
+            // Part 2
+            tracker.DoFolds(input);
+            tracker.Print();
         }
     }
 }
