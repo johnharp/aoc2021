@@ -1,11 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace day14
 {
     public class PuzzleInput
     {
-        public string[] Lines;
+        public string InitialElements;
+        public List<String> InsertionRules = new List<string>();
 
         public PuzzleInput(string filename)
         {
@@ -15,7 +17,13 @@ namespace day14
         private void ReadInputFile(string fullpath)
         {
             Console.WriteLine($"Reading file {fullpath}");
-            Lines = File.ReadAllLines(fullpath);
+            string[] lines = File.ReadAllLines(fullpath);
+
+            InitialElements = lines[0];
+            for (int i = 2; i<lines.Length; i++)
+            {
+                InsertionRules.Add(lines[i]);
+            }
         }
     }
 }

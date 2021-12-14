@@ -10,7 +10,11 @@ namespace day14
         public void TestExampleInput()
         {
             PuzzleInput input = new PuzzleInput("input-example.txt");
-            Assert.AreEqual(10, input.Lines.Length);
+            Assert.AreEqual("NNCB", input.InitialElements);
+
+            Assert.AreEqual("CH -> B", input.InsertionRules[0]);
+            Assert.AreEqual("CN -> C", input.InsertionRules[15]);
+
         }
     }
 }
