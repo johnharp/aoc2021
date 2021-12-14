@@ -6,22 +6,24 @@ namespace day14
     {
         static void Main(string[] args)
         {
-            string filename = "input-example.txt";
-            //string filename = "input.txt";
+            //string filename = "input-example.txt";
+            string filename = "input.txt";
 
             PuzzleInput input = new PuzzleInput(filename);
-            ElementTracker tracker = new ElementTracker();
 
-            tracker.InitializeRules(input.InsertionRules);
-            tracker.InitializeElements(input.InitialElements);
-            Part1(tracker);
+            //Part1(input);
+            Part2(input);
 
  
         }
 
-        public static void Part1(ElementTracker tracker)
+        public static void Part1(PuzzleInput input)
         {
-            for(int i = 1; i<=10; i++)
+            ElementTracker tracker = new ElementTracker();
+            tracker.InitializeRules(input.InsertionRules);
+            tracker.InitializeElements(input.InitialElements);
+
+            for (int i = 1; i<=10; i++)
             {
                 tracker.ApplyRulesToElements();
                 Console.WriteLine($"After iteration {i}");
@@ -29,9 +31,18 @@ namespace day14
             tracker.DumpStatistics();
         }
 
-        public static void Part2(ElementTracker tracker)
+        public static void Part2(PuzzleInput input)
         {
+            var tracker = new ElementTrackerV2();
+            tracker.InitializeRules(input.InsertionRules);
+            tracker.InitializeElements(input.InitialElements);
 
+            for (int i = 1; i <= 40; i++)
+            {
+                tracker.ApplyRulesToElements();
+                Console.WriteLine($"After iteration {i}");
+            }
+            tracker.DumpStatistics();
         }
     }
 }
