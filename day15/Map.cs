@@ -38,6 +38,46 @@ namespace day15
             }
         }
 
+
+        public Map(Map map, long numTiles)
+        {
+            NumCols = map.NumCols * numTiles;
+            NumRows = map.NumRows * numTiles;
+
+            Values = new long[NumCols][];
+            LPS = new long[NumCols][];
+
+            for (long col = 0; col < NumCols; col++)
+            {
+                Values[col] = new long[NumRows];
+                LPS[col] = new long[NumRows];
+            }
+
+            for (long rowtile = 0; rowtile < numTiles; rowtile++)
+            {
+                for (long coltile = 0; coltile < numTiles; coltile++)
+                {
+                    for (long row = 0; row < map.NumRows; row++)
+                    {
+                        for (long col = 0; col < map.NumCols; col++)
+                        {
+                            long value = map.Values[col][row];
+                            for(int i = 0; i<rowtile+coltile; i++)
+                            {
+                                value += 1;
+                                if (value > 9) value = 1;
+                            }
+
+                            Values
+                                [col + (coltile * map.NumCols)]
+                                [row + (rowtile * map.NumRows)] = value;
+                        }
+                    }
+                }
+            }
+
+        }
+
         public void ComputeLeastPathSums()
         {
             for (long row = NumRows - 1; row >= 0; row--)
@@ -69,12 +109,22 @@ namespace day15
 
         public void DumpLeastPathSums()
         {
-            for (int row = 0; row < NumRows; row++)
+            DumpGrid(LPS, "D4", spaces: true);
+        }
+
+        public void DumpValues()
+        {
+            DumpGrid(Values, "D1", spaces: false);
+        }
+
+        public void DumpGrid(long[][] g, string format, bool spaces)
+        {
+            for (int row = 0; row < NumRows && row < 10; row++)
             {
-                for (int col = 0; col < NumCols; col++)
+                for (int col = 0; col < NumCols && col < 10; col++)
                 {
-                    Console.Write(LPS[col][row].ToString("D2"));
-                    Console.Write(" ");
+                    Console.Write(g[col][row].ToString(format));
+                    if (spaces) Console.Write(" ");
                 }
                 Console.WriteLine();
             }
