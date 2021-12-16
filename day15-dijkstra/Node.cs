@@ -22,6 +22,32 @@ namespace day15_dijkstra
 
         public bool IsFinal;
 
+        public bool IsStartNode
+        {
+            get
+            {
+                return Col == 0 && Row == 0;
+            }
+        }
+
+        public bool IsFinishNode
+        {
+            get
+            {
+                return Col == (NumCols - 1) &&
+                    Row == (NumRows - 1);
+            }
+        }
+
+        public static Node FinishNode
+        {
+            get
+            {
+                return Get(NumCols - 1, NumRows - 1);
+            }
+        }
+
+
         public string Label
         {
             get
@@ -67,6 +93,32 @@ namespace day15_dijkstra
             {
                 Node n = Get(c, r);
                 if (!n.IsFinal) nodes.Add(n);
+            }
+        }
+
+        public static void DumpAllRiskSums()
+        {
+            for (int row = 0; row < NumRows; row++)
+            {
+                for (int col = 0; col < NumCols; col++)
+                {
+                    Node n = Get(col, row);
+                    Console.Write(string.Format("{0,4:###}", n.RiskSum));
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public static void DumpAllRiskValues()
+        {
+            for (int row = 0; row < NumRows; row++)
+            {
+                for (int col = 0; col < NumCols; col++)
+                {
+                    Node n = Get(col, row);
+                    Console.Write(string.Format("{0,1:###}", n.Risk));
+                }
+                Console.WriteLine();
             }
         }
     }
