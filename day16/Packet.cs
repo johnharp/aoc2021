@@ -10,18 +10,30 @@ namespace day16
         public long TypeId;
         public long LiteralValue;
 
+        public long PacketBitLength = 0;
+
         public char SubPacketsLengthType = ' ';
 
         public List<Packet> Packets = new List<Packet>();
         public long NumSubPackets;
         public long SubPacketDataLength;
 
-
-        public string ContentBits;  // All content bits after the version
-                                    // and type have been removed
-
         public string Remainder;    // All bits left over after parsing
 
+
+        public long VersionSum
+        {
+            get
+            {
+                long sum = Version;
+                foreach(Packet subpacket in Packets)
+                {
+                    sum += subpacket.VersionSum;
+                }
+
+                return sum;
+            }
+        }
         public Packet(string binary)
         {
             var b = new Bits();
@@ -30,7 +42,9 @@ namespace day16
             Version = b.BinaryToDecimal(binary.Substring(0, 3));
             TypeId = b.BinaryToDecimal(binary.Substring(3, 3));
 
-            ContentBits = binary.Substring(6);
+            // all packets are at least 6 bits long (3 bits for version and type)
+            PacketBitLength = 6;
+
             Remainder = binary.Substring(6);
             
             if (TypeId == 4)
@@ -68,10 +82,10 @@ namespace day16
 
                 sb.Append(Remainder.Substring(i + 1, 4));
                 i += 5;
+                PacketBitLength += 5;
             }
 
             Remainder = Remainder.Substring(i);
-            ContentBits = ContentBits.Substring(0, i);
 
             LiteralValue = b.BinaryToDecimal(sb.ToString()); 
         }
@@ -82,24 +96,40 @@ namespace day16
             SubPacketsLengthType = Remainder[0];
             Remainder = Remainder.Substring(1);
 
+            PacketBitLength += 1;
+
             if (SubPacketsLengthType == '0')
             {
                 string subpacketsNumBits = Remainder.Substring(0, 15);
+                PacketBitLength += 15;
+
                 SubPacketDataLength = b.BinaryToDecimal(subpacketsNumBits);
+                PacketBitLength += SubPacketDataLength;
+
                 Remainder = Remainder.Substring(15);
 
+                long numBitsSubpacketsCreated = 0;
 
+                while (numBitsSubpacketsCreated < SubPacketDataLength)
+                {
+                    Packet p = new Packet(Remainder.Substring((int)numBitsSubpacketsCreated));
+                    numBitsSubpacketsCreated += p.PacketBitLength;
+                    Packets.Add(p);
+                }
             }
             else if (SubPacketsLengthType == '1')
             {
                 string numSubPacketsBits = Remainder.Substring(0, 11);
                 NumSubPackets = b.BinaryToDecimal(numSubPacketsBits);
                 Remainder = Remainder.Substring(11);
+                PacketBitLength += 11;
 
                 for (int n = 0; n<NumSubPackets; n++)
                 {
                     Packet p = new Packet(Remainder);
-                    Remainder = p.Remainder;
+                    PacketBitLength += p.PacketBitLength;
+
+                    Remainder = Remainder.Substring((int)p.PacketBitLength);
                     Packets.Add(p);
                 }
             }

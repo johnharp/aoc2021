@@ -29,6 +29,7 @@ namespace day16
             Assert.AreEqual(4, p1.TypeId);
             Assert.AreEqual(2021, p1.LiteralValue);
             Assert.AreEqual("000", p1.Remainder);
+            Assert.AreEqual(3 + 3 + 5*3, p1.PacketBitLength);
         }
 
         [TestMethod]
@@ -40,9 +41,13 @@ namespace day16
             Assert.AreEqual('0', p1.SubPacketsLengthType);
             Assert.AreEqual(27, p1.SubPacketDataLength);
 
+
             Assert.AreEqual(2, p1.Packets.Count);
             Assert.AreEqual(10, p1.Packets[0].LiteralValue);
-            Assert.AreEqual(20, p1.Packets[0].LiteralValue);
+            Assert.AreEqual(20, p1.Packets[1].LiteralValue);
+
+            Assert.AreEqual(11, p1.Packets[0].PacketBitLength);
+            Assert.AreEqual(16, p1.Packets[1].PacketBitLength);
         }
 
         [TestMethod]
