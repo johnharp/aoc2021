@@ -29,6 +29,26 @@ namespace day16
             return binary;
         }
 
+        public long BinaryToDecimal(string binary)
+        {
+            long v = 0;
+            char[] characters = binary.ToCharArray();
+
+            long positionValue = 1;
+
+            for (long i = characters.Length-1; i>=0; i--)
+            {
+                if (characters[i] == '1')
+                {
+                    v += positionValue;
+                }
+
+                positionValue *= 2;
+            }
+
+            return v;
+        }
+
         public Bits()
         {
         }

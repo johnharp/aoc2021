@@ -45,5 +45,15 @@ namespace day16
                 "11101110000000001101010000001100100000100011000001100000",
                 b.HexToBinary("EE00D40C823060"));
         }
+
+        [TestMethod]
+        public void TestBinaryToDecimal()
+        {
+            Bits b = new Bits();
+            Assert.AreEqual(7, b.BinaryToDecimal("111"));
+            Assert.AreEqual(6, b.BinaryToDecimal("110"));
+            Assert.AreEqual(3, b.BinaryToDecimal("011"));
+            Assert.AreEqual(1, b.BinaryToDecimal("001"));
+        }
     }
 }
