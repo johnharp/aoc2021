@@ -10,7 +10,8 @@ namespace day16
             var input = new PuzzleInput(filename);
 
             Packet p = Packet.PacketFromHex(input.Lines[0]);
-            Console.Write($"Version sum = {p.VersionSum}");
+            Console.WriteLine($"Version sum = {p.VersionSum}");
+            Console.WriteLine($"Value = {p.Value}");
 
         }
     }

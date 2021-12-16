@@ -21,6 +21,107 @@ namespace day16
         public string Remainder;    // All bits left over after parsing
 
 
+        public long Value
+        {
+            get
+            {
+                switch (TypeId)
+                {
+                    case 0:
+                        return CalculateSumPacketValue();
+                    case 1:
+                        return CalculateProductPacketValue();
+                    case 2:
+                        return CalculateMinimumPacketValue();
+                    case 3:
+                        return CalculateMaximumPacketValue();
+                    case 4:
+                        return LiteralValue;
+                    case 5:
+                        return CalculateGreaterThanPacketValue();
+                    case 6:
+                        return CalculateLessThanPacketValue();
+                    case 7:
+                        return CalculateEqualPacketValue();
+                    default:
+                        throw new Exception("unknown type id");
+                }
+                           
+            }
+        }
+
+
+        public long CalculateSumPacketValue()
+        {
+            long v = 0;
+            foreach(var p in Packets)
+            {
+                v += p.Value;
+            }
+
+            return v;
+        }
+
+        public long CalculateProductPacketValue()
+        {
+            long v = 1;
+            foreach (var p in Packets)
+            {
+                v *= p.Value;
+            }
+
+            return v;
+        }
+
+        public long CalculateMinimumPacketValue()
+        {
+            long min = long.MaxValue;
+            if (Packets.Count == 0) throw new Exception("CalculateMinimumPacketValue: no subpackets");
+            foreach (var p in Packets)
+            {
+                if (p.Value < min) min = p.Value;
+            }
+
+            return min;
+        }
+
+        public long CalculateMaximumPacketValue()
+        {
+            long max = long.MinValue;
+            if (Packets.Count == 0) throw new Exception("CalculateMaximumPacketValue: no subpackets");
+            foreach (var p in Packets)
+            {
+                if (p.Value > max) max = p.Value;
+            }
+
+            return max;
+        }
+
+
+        public long CalculateGreaterThanPacketValue()
+        {
+            if (Packets.Count != 2) throw new Exception("expected 2 subpackets");
+
+            if (Packets[0].Value > Packets[1].Value) return 1;
+            else return 0;
+        }
+
+        public long CalculateLessThanPacketValue()
+        {
+            if (Packets.Count != 2) throw new Exception("expected 2 subpackets");
+
+            if (Packets[0].Value < Packets[1].Value) return 1;
+            else return 0;
+        }
+
+        public long CalculateEqualPacketValue()
+        {
+            if (Packets.Count != 2) throw new Exception("expected 2 subpackets");
+
+            if (Packets[0].Value == Packets[1].Value) return 1;
+            else return 0;
+        }
+
         public long VersionSum
         {
             get
