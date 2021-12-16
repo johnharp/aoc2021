@@ -17,6 +17,18 @@ namespace day16
             Assert.AreEqual(7, p2.Version);
             Assert.AreEqual(3, p2.TypeId);
 
+            var p3 = new Packet("8A004A801A8002F478");
+            Assert.AreEqual(4, p3.Version);
+        }
+
+        [TestMethod]
+        public void TestLiteralValuePacket()
+        {
+            var p1 = new Packet("D2FE28");
+            Assert.AreEqual(6, p1.Version);
+            Assert.AreEqual(4, p1.TypeId);
+            Assert.AreEqual(2021, p1.LiteralValue);
+            Assert.AreEqual("000", p1.Remainder);
         }
     }
 }
