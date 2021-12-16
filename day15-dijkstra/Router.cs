@@ -58,6 +58,9 @@ namespace day15_dijkstra
             NonFinalNodes.Remove(n);
         }
 
+
+        // This is slow and needs to be optimized!
+        // this is requireing a scan through the list each iteration
         private void InsertNonFinalNodeInOrder(Node n)
         {
             for (int i = 0; i < NonFinalNodes.Count; i++)
