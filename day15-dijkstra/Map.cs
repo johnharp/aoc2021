@@ -19,11 +19,12 @@ namespace day15_dijkstra
 
             foreach (var neighbor in neighbors)
             {
-                long risk = RiskSum[col, row] + Risk[neighbor.Item1, neighbor.Item2];
+                long risk = RiskSum[col, row] +
+                    Risk[neighbor.Item1, neighbor.Item2];
 
-                if (risk < RiskSum[col, row])
+                if (risk < RiskSum[neighbor.Item1, neighbor.Item2])
                 {
-                    RiskSum[col, row] = risk; 
+                    RiskSum[neighbor.Item1, neighbor.Item2] = risk; 
                 }
             }
 
@@ -35,10 +36,10 @@ namespace day15_dijkstra
         {
             List<(long, long)> locs = new List<(long, long)>();
 
-            TryNeighbor(locs, -1,  0);
-            TryNeighbor(locs,  0, -1);
-            TryNeighbor(locs,  1,  0);
-            TryNeighbor(locs,  0,  1);
+            TryNeighbor(locs, col-1,  row);
+            TryNeighbor(locs, col, row-1);
+            TryNeighbor(locs, col+1,  row);
+            TryNeighbor(locs, col, row+1);
 
             return locs;
         }
