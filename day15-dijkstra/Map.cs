@@ -13,6 +13,8 @@ namespace day15_dijkstra
         public long NumCols;
         public long NumRows;
 
+        
+
         public void Eval(long col, long row)
         {
             var neighbors = NonFinalNeighbors(col, row);
@@ -39,7 +41,7 @@ namespace day15_dijkstra
             TryNeighbor(locs, col-1,  row);
             TryNeighbor(locs, col, row-1);
             TryNeighbor(locs, col+1,  row);
-            TryNeighbor(locs, col, row+1);
+            TryNeighbor(locs,  col,  row+1);
 
             return locs;
         }
