@@ -26,11 +26,13 @@ namespace day15
         private static void Part2(Map map)
         {
             Console.WriteLine("Part2: ");
-            Map tiledmap = new Map(map, 5);
-            tiledmap.ComputeLeastPathSums();
-            tiledmap.DumpValues();
-            tiledmap.DumpLeastPathSums();
-            Console.WriteLine($"Least path sum: {tiledmap.LPS[0][0]}");
+            Map m = new Map(map, 5);
+            //tiledmap.ComputeLeastPathSums();
+            //tiledmap.DumpValues();
+            //tiledmap.DumpLeastPathSums();
+            //Console.WriteLine($"Least path sum: {tiledmap.LPS[0][0]}");
+
+            Console.WriteLine(m.LeastPathSumAtPoint(1, 2));
         }
     }
 }

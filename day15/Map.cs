@@ -78,6 +78,20 @@ namespace day15
 
         }
 
+        // The Least Path Sum (LPS) at a point is the minimum
+        // cost to reach the goal from that point (if you follow
+        // one of the optimal paths from that point to the goal).
+        public long LeastPathSumAtPoint(long col, long row)
+        {
+            // If you start at the goal, there is no cost to reach
+            // it.
+            if (col == NumCols - 1 && row == NumRows - 1) return 0;
+
+            if (LPS[col][row] > 0) return LPS[col][row];
+
+            return -1;
+        }
+
         public void ComputeLeastPathSums()
         {
             for (long row = NumRows - 1; row >= 0; row--)
