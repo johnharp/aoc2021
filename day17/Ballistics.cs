@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace day17
 {
     public class Ballistics
@@ -47,17 +48,20 @@ namespace day17
             return max;
         }
 
+        public long MinReasonableVX { get { return 1;  } }
+        public long MinReasonableVY { get { return Target.mintargety - 1; } }
+        public long MaxReasonableVX { get { return Target.maxtargetx + 1; } }
+        public long MaxReasonableVY { get { return -Target.mintargety + 1; } }
+
         public (long, long) DetermineBestInitialVelocity()
         {
             (long, long) bestv = (0, 0);
             long maxYfound = long.MinValue;
 
-            long minxv = 1;
-            long minyv = Target.mintargety - 1;
-            long maxxv = Target.maxtargetx + 1;
-            long maxyv = -Target.mintargety + 1;
-
-            Console.WriteLine($"minxv: {minxv} maxxv: {maxxv} minyv: {minyv} maxyv: {maxyv}");
+            long minxv = MinReasonableVX;
+            long minyv = MinReasonableVY;
+            long maxxv = MaxReasonableVX;
+            long maxyv = MaxReasonableVY;
 
             for (long vyi = minyv; vyi <= maxyv; vyi++)
             {
@@ -76,6 +80,29 @@ namespace day17
             }
 
             return bestv;
+        }
+
+        public List<(long, long)> DetermineAllSuccessfulVelocities()
+        {
+            List<(long, long)> velocities = new List<(long, long)>();
+
+            long minxv = MinReasonableVX;
+            long minyv = MinReasonableVY;
+            long maxxv = MaxReasonableVX;
+            long maxyv = MaxReasonableVY;
+
+            for (long vyi = minyv; vyi <= maxyv; vyi++)
+            {
+                for (long vxi = minxv; vxi <= maxxv; vxi++)
+                {
+                    if (WillHit(vxi, vyi))
+                    {
+                        velocities.Add((vxi, vyi));
+                    }
+                }
+            }
+
+            return velocities;
         }
     }
 }

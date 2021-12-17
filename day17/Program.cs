@@ -19,6 +19,13 @@ namespace day17
 
             Console.WriteLine(
                 $"With this velocity, the probe reaches a max y of {maxy}");
+
+            Console.WriteLine();
+
+            var velocities = b.DetermineAllSuccessfulVelocities();
+
+            Console.WriteLine(
+                $"There are {velocities.Count} initial velocities that work");
         }
     }
 }
