@@ -53,6 +53,15 @@ namespace day18
             Assert.AreEqual(5, s.Right.Right.Value);
         }
 
+        [TestMethod]
+        public void MakeSureLeftmostIsFound()
+        {
+            Calculator c = new Calculator();
+            var e = Element.CreateElementFromString(
+                "[[1,[2,[3,[4,4]]]],[[[[10,9],8],7],6]]");
+            var s = c.FindFirstPairToExplode(e);
+            Assert.AreEqual("[4,4]", s.ToString());
+        }
 
         [TestMethod]
         public void TestFindFirstElementToExplode()

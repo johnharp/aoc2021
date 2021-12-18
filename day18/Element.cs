@@ -85,6 +85,23 @@ namespace day18
 
         }
 
+        public int Magnitude()
+        {
+            if (IsScalar)
+            {
+                return Value;
+            }
+            else if (IsPair)
+            {
+                return (3 * Left.Magnitude()) +
+                    (2 * Right.Magnitude());
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
         public override string ToString()
         {
             if (IsScalar) return Value.ToString();

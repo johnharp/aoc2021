@@ -50,6 +50,34 @@ namespace day18
             return didExplode;
         }
 
+        public bool Split(Element root)
+        {
+            bool didSplit = false;
+
+            Element e = FindFirstScalarToSplit(root);
+            if (e != null)
+            {
+                didSplit = true;
+
+                int left = e.Value / 2;
+                int right = (e.Value+1) / 2;
+
+                var newpair = Element.CreateElementFromString($"[{left},{right}]");
+                newpair.Parent = e;
+
+                if (e.Parent.Left == e)
+                {
+                    e.Parent.Left = newpair;
+                }
+
+                if (e.Parent.Right == e)
+                {
+                    e.Parent.Right = newpair;
+                }
+            }
+            return didSplit;
+        }
+
         public void AddToFirstNumberLeftOf(Element pair, int value)
         {
             // move up the tree until we reach a pair
@@ -169,6 +197,41 @@ namespace day18
             // if not a pair, if lower than level 4, or otherwise
             // can't find a candidate
             return null;
+        }
+
+        public Element FindFirstScalarToSplit(Element s)
+        {
+            if (s.IsScalar && s.Value >= 10) return s;
+
+            if (s.IsPair)
+            {
+                Element a = FindFirstScalarToSplit(s.Left);
+                if (a != null) return a;
+
+                Element b = FindFirstScalarToSplit(s.Right);
+                if (b != null) return b;
+            }
+            return null;
+        }
+
+        public void Reduce(Element e)
+        {
+            Calculator calc = new Calculator();
+            bool didSomething = true;
+
+            while (didSomething)
+            {
+                bool explode = false;
+                bool split = false;
+
+                explode = calc.Explode(e);
+                if (!explode)
+                {
+                    split = calc.Split(e);
+                }
+
+                didSomething = explode || split;
+            }
         }
     }
 }

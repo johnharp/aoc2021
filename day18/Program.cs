@@ -6,11 +6,23 @@ namespace day18
     {
         static void Main(string[] args)
         {
-            var el = Element.CreateElementFromString(
-                "[[[[1,3],[5,3]],[[1,3],[8,7]]],[[[4,9],[6,9]],[[8,2],[7,3]]]]");
+            var input = new PuzzleInput("input.txt");
+            var calc = new Calculator();
 
-            Console.WriteLine(el);
+            Element sum = Element.CreateElementFromString(input.Lines[0]);
 
+            for (int i = 1; i<input.Lines.Length; i++)
+            {
+                Element a = Element.CreateElementFromString(input.Lines[i]);
+
+                sum = calc.Add(sum, a);
+                calc.Reduce(sum);
+                Console.WriteLine(sum);
+            }
+
+            Console.Write("Magnitude: ");
+            Console.Write(sum.Magnitude());
+            Console.WriteLine();
         }
     }
 }
