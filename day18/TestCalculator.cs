@@ -52,5 +52,38 @@ namespace day18
             Assert.AreEqual(4, s.Right.Left.Right.Value);
             Assert.AreEqual(5, s.Right.Right.Value);
         }
+
+
+        [TestMethod]
+        public void TestFindFirstElementToExplode()
+        {
+            Calculator c = new Calculator();
+
+            var e = Element.CreateElementFromString("[[[[[9,8],1],2],3],4]");
+            var splodee = c.FindFirstPairToExplode(e);
+
+            Assert.AreEqual("[9,8]", splodee.ToString());
+
+            e = Element.CreateElementFromString("[7,[6,[5,[4,[3,2]]]]]");
+            splodee = c.FindFirstPairToExplode(e);
+
+            Assert.AreEqual("[3,2]", splodee.ToString());
+
+            e = Element.CreateElementFromString("[[6,[5,[4,[3,2]]]],1]");
+            splodee = c.FindFirstPairToExplode(e);
+
+            Assert.AreEqual("[3,2]", splodee.ToString());
+
+            e = Element.CreateElementFromString("[[3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]]]");
+            splodee = c.FindFirstPairToExplode(e);
+
+            Assert.AreEqual("[7,3]", splodee.ToString());
+
+            e = Element.CreateElementFromString("[[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]");
+            splodee = c.FindFirstPairToExplode(e);
+
+            Assert.AreEqual("[3,2]", splodee.ToString());
+
+        }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+
 namespace day18
 {
     public class Element
@@ -81,6 +83,12 @@ namespace day18
         public Element()
         {
 
+        }
+
+        public override string ToString()
+        {
+            if (IsScalar) return Value.ToString();
+            else return $"[{Left.ToString()},{Right.ToString()}]";
         }
 
         public static Element CreateElementFromString(string txt)

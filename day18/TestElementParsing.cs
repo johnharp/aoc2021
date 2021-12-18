@@ -30,5 +30,10 @@ namespace day18
                 el.Right.Right.Right.Right.NestedLevel);
 
         }
+
+        public void TestElementToString()
+        {
+            
+        }
     }
 }
