@@ -10,6 +10,11 @@ namespace day18
         public Element Add(Element a, Element b)
         {
             Element sum = new Element();
+            sum.IsPair = true;
+
+            sum.Left = a;
+            sum.Right = b;
+
             return sum;
         }
     }

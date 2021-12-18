@@ -3,34 +3,55 @@ namespace day18
 {
     public class Element
     {
-        public int NestingLevel
+        public bool IsPair = false;
+        public bool IsScalar = false;
+
+        public Element Left
         {
             get
             {
-                return _NestingLevel;
+                if (IsScalar) throw new Exception("Cannot get LeftElement for a Scalar");
+                return _Left;
             }
             set
             {
-                _NestingLevel = value;
-                if (IsPair)
-                {
-                    LeftElement.NestingLevel = value + 1;
-                    RightElement.NestingLevel = value + 1;
-                }
+                if (IsScalar) throw new Exception("Cannot set LeftElement for a Scalar");
+
+                if (value != null) value.Parent = this;
+                _Left = value;
             }
         }
-        private int _NestingLevel;
-
-
-        public bool IsPair
+        public Element Right
         {
-            get { return this.GetType() == typeof(PairElement); }
+            get
+            {
+                if (IsScalar) throw new Exception("Cannot get RightElement for a Scalar");
+                return _Right;
+            }
+            set
+            {
+                if (IsScalar) throw new Exception("Cannot set RightElement for a Scalar");
+                if (value != null) value.Parent = this;
+                _Right = value;
+            }
         }
+        private Element _Left = null;
+        private Element _Right = null;
 
-        public bool IsScalar
+        public int Value
         {
-            get { return this.GetType() == typeof(ScalarElement); }
+            get
+            {
+                if (IsPair) throw new Exception("Cannot retrieve a Value for a Pair");
+                return _value;
+            }
+            set
+            {
+                if (IsPair) throw new Exception("Cannot set a Value for a Pair");
+                _value = value;
+            }
         }
+        private int _value;
 
         public Element Parent
         {
@@ -38,54 +59,90 @@ namespace day18
             set
             {
                 _Parent = value;
-                NestingLevel = _Parent.NestingLevel + 1;
             }
         }
-
         private Element _Parent = null;
 
-        public Element LeftElement
+        public int NestedLevel
         {
             get
             {
-                return ((PairElement)this).LeftElement;
-            }
-        }
-
-        public Element RightElement
-        {
-            get
-            {
-                return ((PairElement)this).RightElement;
-            }
-        }
-
-        public int Value
-        {
-            get
-            {
-                return ((ScalarElement)this).Value;
-            }
-        }
-
-        public static Element Parse(string txt, int nest=0)
-        {
-            if (txt[0] == '[')
-            {
-                return PairElement.Parse(txt, nest);
-            }
-            else if (Char.IsDigit(txt[0]) || txt[0] == '-')
-            {
-                return ScalarElement.Parse(txt, nest);
-            }
-            else
-            {
-                throw new Exception($"Invalid element text: {txt}");
+                int level = 0;
+                Element p = Parent;
+                while (p != null)
+                {
+                    p = p.Parent;
+                    level++;
+                }
+                return level;
             }
         }
 
         public Element()
         {
+
+        }
+
+        public static Element CreateElementFromString(string txt)
+        {
+            Element el = new Element();
+
+            if (txt[0] == '[')
+            {
+                el.IsPair = true;
+                el.ParsePairText(txt);
+            }
+            else if (Char.IsDigit(txt[0]) || txt[0] == '-')
+            {
+                el.IsScalar = true;
+                el.ParseScalarText(txt);
+            }
+            else
+            {
+                throw new Exception($"Invalid element text: {txt}");
+            }
+
+            return el;
+        }
+
+        private void ParsePairText(string txt)
+        {
+            if (txt[0] != '[' ||
+                txt[txt.Length - 1] != ']')
+            {
+                throw new Exception($"Invalid pair element text: {txt}");
+            }
+
+            txt = txt.Substring(1, txt.Length - 2);
+            int splitindex = -1;
+            int braces = 0;
+            for (int i = 0; i < txt.Length; i++)
+            {
+                char c = txt[i];
+                if (c == '[') braces++;
+                else if (c == ']') braces--;
+                else if (c == ',' && braces == 0)
+                {
+                    splitindex = i;
+                    break;
+                }
+            }
+
+            if (splitindex == -1)
+                throw new Exception($"Invalid pair text, can't find split index: {txt}");
+
+            string lefttxt = txt.Substring(0, splitindex);
+            string righttext = txt.Substring(splitindex + 1);
+
+            Left = Element.CreateElementFromString(lefttxt);
+
+            Right = Element.CreateElementFromString(righttext);
+        }
+
+        private void ParseScalarText(string txt)
+        {
+            Value = int.Parse(txt);
+            
         }
     }
 }
