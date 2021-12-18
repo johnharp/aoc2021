@@ -51,7 +51,6 @@ namespace day18
             Assert.AreEqual(3, s.Right.Left.Left.Value);
             Assert.AreEqual(4, s.Right.Left.Right.Value);
             Assert.AreEqual(5, s.Right.Right.Value);
-
         }
     }
 }
