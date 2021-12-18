@@ -105,7 +105,8 @@ namespace day18
         {
             Calculator c = new Calculator();
             var e = Element.CreateElementFromString("[[[[[9,8],1],2],3],4]");
-            var p = e.Left.Left.Left.Left.Left;
+            var p = e.Left.Left.Left.Left;
+            Assert.AreEqual("[9,8]", p.ToString());
             c.AddToFirstNumberLeftOf(p, 100);
             // no number to the left, so should not modify the original
             // element
@@ -134,6 +135,43 @@ namespace day18
             Assert.AreEqual("[8,4]", p.ToString());
             c.AddToFirstNumberLeftOf(p, 400);
             Assert.AreEqual("[[[[0,7],4],[407,[[8,4],9]]],[1,1]]", e.ToString());
+        }
+
+        [TestMethod]
+        public void TestAddToFirstNumberRightOf()
+        {
+            Calculator c = new Calculator();
+            var e = Element.CreateElementFromString("[[[[[9,8],1],2],3],4]");
+            var p = e.Left.Left.Left.Left;
+            Assert.AreEqual("[9,8]", p.ToString());
+            c.AddToFirstNumberRightOf(p, 100);
+            // no number to the left, so should not modify the original
+            // element
+            Assert.AreEqual("[[[[[9,8],101],2],3],4]", e.ToString());
+
+            e = Element.CreateElementFromString("[7,[6,[5,[4,[3,2]]]]]");
+            p = e.Right.Right.Right.Right;
+            Assert.AreEqual("[3,2]", p.ToString());
+            c.AddToFirstNumberRightOf(p, 100);
+            Assert.AreEqual("[7,[6,[5,[4,[3,2]]]]]", e.ToString());
+
+            e = Element.CreateElementFromString("[[6,[5,[4,[3,2]]]],1]");
+            p = e.Left.Right.Right.Right;
+            Assert.AreEqual("[3,2]", p.ToString());
+            c.AddToFirstNumberRightOf(p, 200);
+            Assert.AreEqual("[[6,[5,[4,[3,2]]]],201]", e.ToString());
+
+            e = Element.CreateElementFromString("[[3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]]]");
+            p = e.Left.Right.Right.Right;
+            Assert.AreEqual("[7,3]", p.ToString());
+            c.AddToFirstNumberRightOf(p, 300);
+            Assert.AreEqual("[[3,[2,[1,[7,3]]]],[306,[5,[4,[3,2]]]]]", e.ToString());
+
+            e = Element.CreateElementFromString("[[[[0,7],4],[7,[[8,4],9]]],[1,1]]");
+            p = e.Left.Right.Right.Left;
+            Assert.AreEqual("[8,4]", p.ToString());
+            c.AddToFirstNumberRightOf(p, 400);
+            Assert.AreEqual("[[[[0,7],4],[7,[[8,4],409]]],[1,1]]", e.ToString());
         }
     }
 }

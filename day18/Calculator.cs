@@ -29,6 +29,22 @@ namespace day18
             {
                 didExplode = true;
                 AddToFirstNumberLeftOf(e, e.Left.Value);
+                AddToFirstNumberRightOf(e, e.Right.Value);
+                var zero = new Element();
+                zero.IsScalar = true;
+                zero.IsPair = false;
+                zero.Value = 0;
+                zero.Parent = e.Parent;
+
+                if (e.Parent.Left == e)
+                {
+                    e.Parent.Left = zero;
+                }
+
+                if (e.Parent.Right == e)
+                {
+                    e.Parent.Right = zero;
+                }
             }
 
             return didExplode;
@@ -37,8 +53,11 @@ namespace day18
         public void AddToFirstNumberLeftOf(Element pair, int value)
         {
             // move up the tree until we reach a pair
-            // where we came in via the right-hand branch,
-            // or we reach the root and can't go any further
+            // who's parent we are linked to via their right
+            // branch
+
+            // if we have no parent we won't be able to find
+            // something to the left of us in the tree
             if (pair.Parent == null) return;
 
             Element p = pair;
@@ -58,17 +77,67 @@ namespace day18
                 }
             }
 
-            // now traverse down the left hand side until
-            // we find a right hand scalar
+            // if the left branch of this tree is a scalar
+            // that's the one to modify
+            // if not, traverse down it's right side
+
+            // now traverse down the left hand side from this
+            // parent, always looking to the left for a scalar.
             if (foundparent != null)
             {
-                p = foundparent;
-                while (p.Left.IsPair)
+                p = foundparent.Left;
+
+                while (!p.IsScalar)
+                {
+                    p = p.Right;
+                }
+                p.Value += value;
+            }
+
+        }
+
+        public void AddToFirstNumberRightOf(Element pair, int value)
+        {
+            // move up the tree until we reach a pair
+            // who's parent we are linked to via their left
+            // branch
+
+            // if we have no parent we won't be able to find
+            // something to the right of us in the tree
+            if (pair.Parent == null) return;
+
+            Element p = pair;
+            Element foundparent = null;
+            while (p.Parent != null)
+            {
+                if (p.Parent.Left == p)
+                {
+                    // found a parent where we came in via the left
+                    // branch
+                    foundparent = p.Parent;
+                    break;
+                }
+                else
+                {
+                    p = p.Parent;
+                }
+            }
+
+            // if the right branch of this tree is a scalar
+            // that's the one to modify
+            // if not, traverse down it's left side
+            
+            // now traverse down the right hand side from this
+            // parent, always looking to the left for a scalar.
+            if (foundparent != null)
+            {
+                p = foundparent.Right;
+
+                while (!p.IsScalar)
                 {
                     p = p.Left;
                 }
-
-                if (p.Left.IsScalar) p.Left.Value += value;
+                p.Value += value;
             }
         }
 
