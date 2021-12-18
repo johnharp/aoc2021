@@ -10,7 +10,7 @@ namespace day18
         public void TestExampleInput()
         {
             var input = new PuzzleInput("input-example.txt");
-            Assert.AreEqual(10, input.Lines.Length);
+            Assert.AreEqual(7, input.Lines.Length);
         }
     }
 }
