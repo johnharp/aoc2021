@@ -69,6 +69,14 @@ namespace day19
                 v.z + z);
         }
 
+        public Vector3 Subtract(Vector3 v)
+        {
+            return new Vector3(
+                x - v.x,
+                y - v.y,
+                z - v.z);
+        }
+
         public override bool Equals(object obj)
         {
             // If the other object is null, can't be equal
@@ -102,6 +110,31 @@ namespace day19
             return $"{x,4},{y,4},{z,4}";
         }
 
+        // return 1 if "larger" than v
+        // return 0 if equal
+        // return -1 if "smaller" than v
+        public int CompareSortOrder(Vector3 other)
+        {
+            if (x > other.x ||
+                 (x == other.x && y > other.y) ||
+                 (x == other.x && y == other.y && z > other.z))
+            {
+                return 1;
+            }
+            else if (x < other.x ||
+                (x == other.x && y < other.y) ||
+                (x == other.x && y == other.y && z < other.z))
+            {
+                return -1;
+            }
+            else
+            {
+                return 0;
+            }
+
+
+        }
+
         int IComparable.CompareTo(object obj)
         {
             if (obj == null) return 1;
@@ -110,24 +143,7 @@ namespace day19
                 throw new Exception("Object is not a Vector3");
 
             Vector3 other = (Vector3)obj;
-
-            if (x > other.x ||
-                (x == other.x && y > other.y) ||
-                (x == other.x && y == other.y && z > other.z))
-            {
-                return -1;
-            }
-            else if (x < other.x ||
-                (x == other.x && y < other.y) ||
-                (x == other.x && y == other.y && z < other.z))
-            {
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
-            
+            return CompareSortOrder(other);            
         }
 
         //private class VectorComparerHelper : IComparer

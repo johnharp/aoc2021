@@ -12,12 +12,33 @@ namespace day19
             Orientations = Orientation.PossibleOrientations();
         }
 
-        public void LookForMatches(Scanner s1, Scanner s2)
+        public List<Vector3> LookForMatches(Scanner s1, Scanner s2)
         {
-            foreach(var o in Orientations)
+            var s1points = new List<Vector3>(s1.Points);
+            s1points.Sort();
+
+            // assume s1 location and orientation line up
+            // with the world origin and orientation
+            foreach (var o in Orientations)
             {
-                var points = ApplyOrientation(o, s1.Points);
+                // rotate the points in s2 to each orientation
+                var s2points = ApplyOrientation(o, s2.Points);
+
+                var translations = PossibleTranslations(s1points, s2points);
+                foreach(var translation in translations)
+                {
+                    List<Vector3> translatedPoints;
+                    translatedPoints = ApplyTranslation(translation, s2points);
+                    translatedPoints.Sort();
+                    var matches = Match(s1points, translatedPoints);
+                    if (matches.Count >= 12) return matches;
+                }
+
+
+
             }
+
+            return new List<Vector3>();
         }
 
         public List<Vector3> ApplyOrientation(Orientation o, List<Vector3> points)
@@ -44,6 +65,47 @@ namespace day19
             }
 
             return newPoints;
+        }
+
+        public List<Vector3> PossibleTranslations(List<Vector3> l1, List<Vector3> l2)
+        {
+            List<Vector3> translations = new List<Vector3>();
+
+            foreach(Vector3 p1 in l1)
+            {
+                foreach(Vector3 p2 in l2)
+                {
+                    translations.Add(p1.Subtract(p2));
+                }
+            }
+
+            return translations;
+        }
+
+        public List<Vector3> Match(List<Vector3> l1, List<Vector3> l2)
+        {
+            int i1 = 0;
+            int i2 = 0;
+
+            List<Vector3> matches = new List<Vector3>();
+
+            while (i1 < l1.Count && i2 < l2.Count)
+            {
+                Vector3 v1 = l1[i1];
+                Vector3 v2 = l2[i2];
+
+                int order = v1.CompareSortOrder(v2);
+                if (order == 0)
+                {
+                    matches.Add(v1);
+                    i1++;
+                    i2++;
+                }
+                else if (order < 0) i1++;
+                else if (order > 0) i2++;
+            }
+
+            return matches;
         }
     }
 }

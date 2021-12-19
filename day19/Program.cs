@@ -8,39 +8,17 @@ namespace day19
     {
         static void Main(string[] args)
         {
-            string filename = "input-example.txt";
-            // string filename = "input.txt";
+            //string filename = "input-example.txt";
+            string filename = "input.txt";
             var input = new PuzzleInput(filename);
             var calc = new Calculator();
 
             var scanners = input.Scanners;
 
 
-            var sortedPoints = new List<Vector3>(scanners[0].Points);
-            sortedPoints.Sort();
-            DumpPoints(sortedPoints);
-
-            return;
-
-            List<Vector3> points = new List<Vector3>()
-            {
-                new Vector3(-1, -1, 1),
-                new Vector3(-2, -2, 2),
-                new Vector3(-3, -3, 3),
-                new Vector3(-2, -3, 1),
-                new Vector3(5, 6, -4),
-                new Vector3(8, 0, 7)
-            };
-
-            Console.WriteLine("-------------------------");
-
-            foreach (Orientation o in Orientation.PossibleOrientations())
-            {
-                var rotatedPoints = calc.ApplyOrientation(o, points);
-                DumpPoints(rotatedPoints);
-                Console.WriteLine("-------------------------");
-            }
-
+            var matches = calc.LookForMatches(scanners[0], scanners[8]);
+            DumpPoints(matches);
+            Console.Out.WriteLine("stop");
 
         }
 
