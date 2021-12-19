@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace day19
 {
@@ -14,6 +15,12 @@ namespace day19
 
             var scanners = input.Scanners;
 
+
+            var sortedPoints = new List<Vector3>(scanners[0].Points);
+            sortedPoints.Sort();
+            DumpPoints(sortedPoints);
+
+            return;
 
             List<Vector3> points = new List<Vector3>()
             {

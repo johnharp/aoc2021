@@ -32,5 +32,18 @@ namespace day19
 
             return newPoints;
         }
+
+        public List<Vector3> ApplyTranslation(Vector3 trans, List<Vector3> points)
+        {
+            List<Vector3> newPoints = new List<Vector3>();
+
+            foreach (var point in points)
+            {
+                Vector3 newPoint = trans.Add(point);
+                newPoints.Add(newPoint);
+            }
+
+            return newPoints;
+        }
     }
 }

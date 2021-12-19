@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+
 namespace day19
 {
     // Vector3 is a value type
@@ -9,7 +11,7 @@ namespace day19
     // var v3 = v2;
     // var v3.x = 100;
     // Assert.AreEqual(1, v2.x);
-    public struct Vector3
+    public struct Vector3 : IComparable
     {
         public int x;
         public int y;
@@ -59,6 +61,14 @@ namespace day19
             );
         }
 
+        public Vector3 Add(Vector3 v)
+        {
+            return new Vector3(
+                v.x + x,
+                v.y + y,
+                v.z + z);
+        }
+
         public override bool Equals(object obj)
         {
             // If the other object is null, can't be equal
@@ -91,6 +101,61 @@ namespace day19
         {
             return $"{x,4},{y,4},{z,4}";
         }
+
+        int IComparable.CompareTo(object obj)
+        {
+            if (obj == null) return 1;
+
+            if (obj.GetType() != typeof(Vector3))
+                throw new Exception("Object is not a Vector3");
+
+            Vector3 other = (Vector3)obj;
+
+            if (x > other.x ||
+                (x == other.x && y > other.y) ||
+                (x == other.x && y == other.y && z > other.z))
+            {
+                return -1;
+            }
+            else if (x < other.x ||
+                (x == other.x && y < other.y) ||
+                (x == other.x && y == other.y && z < other.z))
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+            
+        }
+
+        //private class VectorComparerHelper : IComparer
+        //{
+        //    int IComparer.Compare(object x, object y)
+        //    {
+        //        Vector3 v1 = (Vector3)x;
+        //        Vector3 v2 = (Vector3)y;
+
+        //        if (v1.x > v2.x ||
+        //            (v1.x == v2.x && v1.y > v2.y) ||
+        //            (v1.x == v2.x && v1.y == v2.y && v1.z > v2.z))
+        //        {
+        //            return 1;
+        //        }
+        //        else if (v1.x < v2.x ||
+        //            (v1.x == v2.x && v1.y < v2.y) ||
+        //            (v1.x == v2.x && v1.y == v2.y && v1.z < v2.z))
+        //        {
+        //            return -1;
+        //        }
+        //        else
+        //        {
+        //            return 0;
+        //        }
+        //    }
+
+        //}
 
     }
 }
