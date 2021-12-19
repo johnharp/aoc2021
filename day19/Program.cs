@@ -6,7 +6,13 @@ namespace day19
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            string filename = "input-example.txt";
+            // string filename = "input.txt";
+            var input = new PuzzleInput(filename);
+
+            var scanners = input.Scanners;
+
+            var orientations = Orientation.PossibleOrientations();
         }
     }
 }

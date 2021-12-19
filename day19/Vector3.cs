@@ -1,18 +1,22 @@
 ﻿using System;
 namespace day19
 {
-    public class Vector3
+    // Vector3 is a value type
+    // this way, each assignment creates a copy of the value rather
+    // than a reference to the value.
+    //
+    // var v2 = new Vector3(1, 0, 0);
+    // var v3 = v2;
+    // var v3.x = 100;
+    // Assert.AreEqual(1, v2.x);
+    public struct Vector3
     {
         public int x;
         public int y;
         public int z;
 
-        public Vector3(int nx, int ny, int nz)
-        {
-            x = nx;
-            y = ny;
-            z = nz;
-        }
+        public Vector3(int nx, int ny, int nz) =>
+            (x, y, z) = (nx, ny, nz);
 
         public Vector3(string str)
         {
@@ -39,6 +43,20 @@ namespace day19
             x = nx;
             y = ny;
             z = nz;
+        }
+
+        public Vector3 TimesScalar(int i)
+        {
+            return new Vector3(x * i, y * i, z * i);
+        }
+
+        public Vector3 CrossProduct(Vector3 v)
+        {
+            return new Vector3(
+                y*v.z - z*v.y,
+                z*v.x - x*v.z,
+                x*v.y - y*v.x
+            );
         }
 
         public override bool Equals(object obj)
