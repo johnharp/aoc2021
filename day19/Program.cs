@@ -16,10 +16,80 @@ namespace day19
             var scanners = input.Scanners;
 
 
-            var matches = calc.LookForMatches(scanners[0], scanners[8]);
-            DumpPoints(matches);
+            List<Scanner> DoneScanners = new List<Scanner>();
+            List<Scanner> LocatedScanners = new List<Scanner>();
+            List<Scanner> UnlocatedScanners = new List<Scanner>();
+
+            LocatedScanners.Add(scanners[0]);
+            for(int i = 1; i<scanners.Count; i++)
+            {
+                UnlocatedScanners.Add(scanners[i]);
+            }
+
+            while (UnlocatedScanners.Count > 0)
+            {
+                var s1 = LocatedScanners[0];
+                List<Scanner> moveFromUnlocatedToLocated = new List<Scanner>();
+
+                foreach (Scanner s2 in UnlocatedScanners)
+                {
+                    var matches = calc.LookForMatches(s1, s2);
+                    if (matches.Count >= 12)
+                    {
+                        moveFromUnlocatedToLocated.Add(s2);
+                    }
+                }
+
+                DoneScanners.Add(s1);
+                LocatedScanners.Remove(s1);
+
+                foreach (var s in moveFromUnlocatedToLocated)
+                {
+                    LocatedScanners.Add(s);
+                    UnlocatedScanners.Remove(s);
+                }
+
+                Console.WriteLine($"{DoneScanners.Count}/{scanners.Count}");
+            }
+
+            foreach (Scanner s in LocatedScanners)
+            {
+                DoneScanners.Add(s);
+            }
+            LocatedScanners.Clear();
+            Console.WriteLine($"{DoneScanners.Count}/{scanners.Count}");
+
+            if (UnlocatedScanners.Count > 0) throw new Exception("failed to locate some scanners");
+
+            //var matches = calc.LookForMatches(scanners[0], scanners[8]);
+            //DumpPoints(matches);
+
+            List<string> allPointNames = new List<string>();
+            foreach(Scanner s in scanners)
+            {
+                var points = s.PointsInWorldCoordinates();
+                foreach(var point in points)
+                {
+                    string pointName = point.ToString();
+                    allPointNames.Add(pointName);
+                }
+            }
+
+            allPointNames = allPointNames.Distinct().ToList();
+            allPointNames.Sort();
+            foreach(string name in allPointNames)
+            {
+                Console.WriteLine(name);
+            }
+
+            Console.Out.WriteLine($"There are {allPointNames.Count} distinct points");
             Console.Out.WriteLine("stop");
 
+            //Console.Out.WriteLine("---- scanner 0 ----");
+            //DumpPoints(scanners[0].PointsInWorldCoordinates());
+
+            //Console.Out.WriteLine("---- scanner 1 ----");
+            //DumpPoints(scanners[1].PointsInWorldCoordinates());
         }
 
         public static void DumpPoints(List<Vector3> points)

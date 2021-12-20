@@ -107,7 +107,7 @@ namespace day19
 
         public override string ToString()
         {
-            return $"{x,4},{y,4},{z,4}";
+            return $"{x,5},{y,5},{z,5}";
         }
 
         // return 1 if "larger" than v

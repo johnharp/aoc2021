@@ -14,7 +14,7 @@ namespace day19
 
         public List<Vector3> LookForMatches(Scanner s1, Scanner s2)
         {
-            var s1points = new List<Vector3>(s1.Points);
+            var s1points = s1.PointsInWorldCoordinates();
             s1points.Sort();
 
             // assume s1 location and orientation line up
@@ -31,10 +31,14 @@ namespace day19
                     translatedPoints = ApplyTranslation(translation, s2points);
                     translatedPoints.Sort();
                     var matches = Match(s1points, translatedPoints);
-                    if (matches.Count >= 12) return matches;
+                    if (matches.Count >= 12)
+                    {
+                        s2.IsLocated = true;
+                        s2.Orientation = o;
+                        s2.Origin = translation;
+                        return matches;
+                    }
                 }
-
-
 
             }
 
@@ -53,6 +57,7 @@ namespace day19
 
             return newPoints;
         }
+
 
         public List<Vector3> ApplyTranslation(Vector3 trans, List<Vector3> points)
         {

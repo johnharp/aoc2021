@@ -29,6 +29,21 @@ namespace day19
                     s = new Scanner();
                     s.Id = id;
 
+
+                    // We'll measure everything off of
+                    // scanner 0
+                    // Assume it is situated at world origin
+                    // and is aligned with the world axes
+                    if (s.Id == 0)
+                    {
+                        s.IsLocated = true;
+                        s.Orientation = new Orientation(
+                            new Vector3(1, 0, 0),
+                            new Vector3(0, 1, 0),
+                            new Vector3(0, 0, 1));
+                        s.Origin = new Vector3(0, 0, 0);
+                    }
+
                     Scanners.Add(s);
                 }
                 else if (string.IsNullOrEmpty(line))
