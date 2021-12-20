@@ -83,6 +83,7 @@ namespace day19
             }
 
             Console.Out.WriteLine($"There are {allPointNames.Count} distinct points");
+            FindMaxManhattanDistance(scanners);
             Console.Out.WriteLine("stop");
 
             //Console.Out.WriteLine("---- scanner 0 ----");
@@ -98,6 +99,32 @@ namespace day19
             {
                 Console.WriteLine(p);
             }
+        }
+
+
+        public static void FindMaxManhattanDistance(List<Scanner> scanners)
+        {
+            int max = int.MinValue;
+
+            for (int i = 0; i < scanners.Count; i++)
+            {
+                for (int j = 0; j < scanners.Count; j++)
+                {
+                    if (i == j) continue;
+
+                    Vector3 a = scanners[i].Origin;
+                    Vector3 b = scanners[j].Origin;
+
+                    Vector3 c = a.Subtract(b);
+                    int distance = Math.Abs(c.x) +
+                        Math.Abs(c.y) +
+                        Math.Abs(c.z);
+
+                    if (distance > max) max = distance;
+                }
+            }
+
+            Console.WriteLine($"Max Manhattan distance is {max}");
         }
     }
 
