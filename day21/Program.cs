@@ -62,7 +62,12 @@ namespace day21
 
         private static void Part2()
         {
-
+            // state is
+            // (<current player number>,
+            //  <player 1 position>,
+            //  <player 1 score>,
+            //  <player 2 position>,
+            //  <player 2 score)
             (int, int, int, int, int) initialState = (
                 1,
                 2,
@@ -73,7 +78,7 @@ namespace day21
             // initially only one state exists and one univers
             states[initialState] = 1;
 
-            int i = 0;
+            long i = 0;
             // Continue this as long as states remain in the state dictionary
             while (states.Keys.Count > 0)
             {
@@ -90,32 +95,13 @@ namespace day21
                 Expand(state, 8, 3, numUniverses);
                 Expand(state, 9, 1, numUniverses);
 
-                Console.WriteLine($"{p1wins} | {p2wins} | {states.Count}");
                 MoveToWins();
-                if (i % 10_000_000_000 == 0)
+                if (i % 1_000 == 0)
                     Console.WriteLine($"{p1wins} | {p2wins} | {states.Count}");
 
                 i++;
             }
-            Console.WriteLine($"{p1wins} | {p2wins} | {states.Count}");
-
-            // At each turn:
-            // * for each of these possible outcomes:
-            //        a roll of 3 happens in 1 universe
-            //        a roll of 4 happens in 3 universes
-            //        a roll of 5 happens in 6 uninverse
-            //        a roll of 6 happens in 7 universes
-            //        a roll of 7 happens in 6 universes
-            //        a roll of 8 happens in 3 universes
-            //        a roll of 9 happens in 1 universes
-            //    - calculate the resulting score
-            //    - change to the otheer player as next turn
-            //    - either increment thee states dictionary with or add
-            //      to states dictionary for each of these
-            // * examine all states in the states dictionary and move any
-            //   over to the winning state if needed
-
-            //       
+            Console.WriteLine($"{p1wins} | {p2wins} | {states.Count}");   
         }
 
         private static void Expand(
@@ -126,7 +112,7 @@ namespace day21
                                       // this turn, how many got this roll
             )
         {
-            var newState = State.Move(roll, state);
+            var newState = Move(roll, state);
 
             if (!states.Keys.Contains(newState)) states[newState] = 0;
 
@@ -165,5 +151,40 @@ namespace day21
             }
         }
 
+        public static (int, int, int, int, int) Move(
+            int n,
+            (int, int, int, int, int) state)
+        {
+            int playerNum,
+                p1pos,
+                p1score,
+                p2pos,
+                p2score;
+
+            (playerNum, p1pos, p1score, p2pos, p2score) = state;
+            int pos = playerNum == 1 ? p1pos : p2pos;
+            pos += n;
+            while (pos > 10)
+            {
+                pos -= 10;
+            }
+
+            // score the player (and advance the proper one)
+            if (playerNum == 1)
+            {
+                p1score += pos;
+                p1pos = pos;
+            }
+            else
+            {
+                p2score += pos;
+                p2pos = pos;
+            }
+
+            // advance to next player
+            playerNum = playerNum == 1 ? 2 : 1;
+
+            return (playerNum, p1pos, p1score, p2pos, p2score);
+        }
     }
 }
