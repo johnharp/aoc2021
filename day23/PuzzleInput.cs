@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace day22
+namespace day23
 {
     public class PuzzleInput
     {
