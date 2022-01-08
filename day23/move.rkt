@@ -1,11 +1,20 @@
 #lang racket
-(provide moves-from is-occupied)
+(provide moves-from from-val to-val num-steps is-occupied)
 #|
   0   1   2   3   4   5   6   7   8   9  10
          11      13      15      17
          12      14      16      18
 |#
-  
+
+(define (from-val move)
+  (first move))
+
+(define (to-val move)
+  (last move))
+
+(define (num-steps move)
+  (sub1 (length move)))
+
 (define (moves-from-14)
   '((14 13 4 3 2 11 12)
     (14 13 4 3 2 11)

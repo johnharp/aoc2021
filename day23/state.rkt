@@ -1,5 +1,7 @@
 #lang racket
 
+(provide string->state display-state)
+
 (define (string->state str)
   (list->vector (map string (string->list str))))
 
@@ -29,4 +31,3 @@
   (displayln "|  ")
   (displayln "  +-------+  "))
 
-(provide string->state display-state)
