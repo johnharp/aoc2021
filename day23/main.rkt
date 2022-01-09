@@ -6,4 +6,4 @@
 
 (define initial-state (string->state "...........BACDBCDA"))
 
-(define s (first (moves-from 14)))
+(define m (first (moves-from 14)))
