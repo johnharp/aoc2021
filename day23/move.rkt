@@ -1,7 +1,7 @@
 #lang racket
 (require "state.rkt")
-(provide moves-from
-         move-is-blocked
+(provide valid-moves-from
+         is-move-blocked
          from-val
          to-val
          num-steps)
@@ -224,8 +224,22 @@ number of steps to get from start to end is length - 1
     [(14) (moves-from-14)]))
 
 
-(define (move-is-blocked state move)
+;(define (is-move-blocked state move)
+;  (let* ([check-occupied (curry is-occupied state)]
+;         [blocked-spots (filter check-occupied move)])
+;    (> 0 (length blocked-spots))))
+
+(define (is-move-blocked state move)
   (let* ([check-occupied (curry is-occupied state)]
-         [blocked-spots (filter check-occupied move)])
-    (> 0 (length blocked-spots))))
-  
+         [blocked-spots (filter check-occupied (cdr move))])
+    (> (length blocked-spots) 0)))
+
+(define (is-move-including-locs move locs)
+  (> (length (set-intersect move locs)) 0))
+
+
+(define (is-valid-move state move)
+  (and (not (is-move-blocked state move))))
+
+(define (valid-moves-from state n)
+  (filter (curry is-valid-move state) (moves-from n)))
