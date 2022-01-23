@@ -1,12 +1,14 @@
 #lang racket
 (require "move.rkt")
 (require "state.rkt")
+(require "filters.rkt")
 
 
 
 (define initial-state (string->state "...........BACDBCDA"))
-(define s2 (string->state "..............DBCDA"))
-(define m (valid-moves-from s2 14))
-(display-state s2)
+(define s initial-state)
+;(define s2 (string->state "..............DBCDA"))
+(define m (moves-from 13))
+(display-state s)
 
 

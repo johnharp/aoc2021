@@ -1,6 +1,8 @@
 #lang racket
 (require "state.rkt")
-(provide valid-moves-from
+(provide is-move-from-home
+         moves-from
+         valid-moves-from
          is-move-blocked
          from-val
          to-val
@@ -224,18 +226,39 @@ number of steps to get from start to end is length - 1
     [(14) (moves-from-14)]))
 
 
-;(define (is-move-blocked state move)
-;  (let* ([check-occupied (curry is-occupied state)]
-;         [blocked-spots (filter check-occupied move)])
-;    (> 0 (length blocked-spots))))
-
+; is-move-blocked
+; Returns:
+;   #true if this move would collide with another occupied space
+;   #false if the move would not collide
 (define (is-move-blocked state move)
   (let* ([check-occupied (curry is-occupied state)]
          [blocked-spots (filter check-occupied (cdr move))])
     (> (length blocked-spots) 0)))
 
+; is-move-including-locs
+; Returns:
+;     #true if the move passes through any location in locs
+;     #false if the move does not pass through any of the given locations
 (define (is-move-including-locs move locs)
   (> (length (set-intersect move locs)) 0))
+
+; is-move-from-home
+; Returns:
+;     #true if the move would take an amiphod out of its home room
+;     #false otherwise
+(define (is-move-from-home state move)
+  (let* ([moved-amiphod (vector-ref state (first move))]
+         [start-pos (first move)]
+         [end-pos (last move)])
+  (case moved-amiphod
+    [("A") (or (= start-pos 12)
+               (and (= start-pos 11) (not (= end-pos 12))))]
+    [("B") (or (= start-pos 14)
+               (and (= start-pos 13) (not (= end-pos 14))))]
+    [("C") (= start-pos 16)]
+    [("D") (= start-pos 18)]
+    [else #false]
+  )))
 
 
 (define (is-valid-move state move)
