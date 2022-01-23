@@ -2,7 +2,9 @@
 
 (provide string->state
          display-state
-         is-occupied)
+         is-occupied
+         home-1-pos
+         home-2-pos)
 
 #|
 
@@ -25,6 +27,19 @@ D  Desert amiphod (1,000 energy per step)
 
 |#
 
+(define (home-1-pos amiphod-type)
+  (case amiphod-type
+    [("A") 11]
+    [("B") 13]
+    [("C") 15]
+    [("D") 17]))
+
+(define (home-2-pos amiphod-type)
+  (case amiphod-type
+    [("A") 12]
+    [("B") 14]
+    [("C") 16]
+    [("D") 18]))
 
 (define (string->state str)
   (list->vector (map string (string->list str))))

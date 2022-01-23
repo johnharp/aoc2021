@@ -21,14 +21,21 @@ number of steps to get from start to end is length - 1
 
 |#
 
-(define (from-val move)
-  (first move))
-
-(define (to-val move)
-  (last move))
-
-(define (num-steps move)
-  (sub1 (length move)))
+(define (moves-from-15)
+  '((15 6 5 4 3 2 11 12)
+    (15 6 5 4 3 2 11)
+    (15 6 5 4 13 14)
+    (15 6 5 13)
+    (15 16)
+    (15 6 7 8 17 18)
+    (15 6 7 8 17)
+    (15 6 5 4 3 2 1 0)
+    (15 6 5 4 3 2 1)
+    (15 6 5 4 3)
+    (15 6 5)
+    (15 6 7)
+    (15 6 7 8 9)
+    (15 6 7 8 9 10)))
 
 (define (moves-from-14)
   '((14 13 4 3 2 11 12)
@@ -225,6 +232,14 @@ number of steps to get from start to end is length - 1
     [(13) (moves-from-13)]
     [(14) (moves-from-14)]))
 
+(define (from-val move)
+  (first move))
+
+(define (to-val move)
+  (last move))
+
+(define (num-steps move)
+  (sub1 (length move)))
 
 ; is-move-blocked
 ; Returns:
@@ -244,25 +259,27 @@ number of steps to get from start to end is length - 1
 
 ; is-move-from-home
 ; Returns:
-;     #true if the move would take an amiphod out of its home room
+;     #true if the move would take an amiphod out of its home room in an illegal move
+;           * moving from its home-2 position is always disallowed
+;           * moving from its home-1 position (away from home-2, toward the hallway)
+;             when home-2 is either empty or occupied with the correct amiphod
 ;     #false otherwise
 (define (is-move-from-home state move)
   (let* ([moved-amiphod (vector-ref state (first move))]
          [start-pos (first move)]
-         [end-pos (last move)])
-  (case moved-amiphod
-    [("A") (or (= start-pos 12)
-               (and (= start-pos 11) (not (= end-pos 12))))]
-    [("B") (or (= start-pos 14)
-               (and (= start-pos 13) (not (= end-pos 14))))]
-    [("C") (= start-pos 16)]
-    [("D") (= start-pos 18)]
-    [else #false]
-  )))
+         [end-pos (last move)]
+         [h1-pos (home-1-pos moved-amiphod)]
+         [h2-pos (home-2-pos moved-amiphod)]
+         [h2-occupied-by (vector-ref state h1-pos)])
+  (or
+     (= start-pos h2-pos)
+     (and (= start-pos h1-pos) (not (= end-pos h2-pos)) (= h2-occupied-by moved-amiphod))
+     (and (= start-pos h1-pos) (not (= end-pos h2-pos)) (= h2-occupied-by ".")))))
 
 
 (define (is-valid-move state move)
-  (and (not (is-move-blocked state move))))
+  (and (not (is-move-blocked state move))
+       (not (is-move-from-home state move))))
 
 (define (valid-moves-from state n)
   (filter (curry is-valid-move state) (moves-from n)))
