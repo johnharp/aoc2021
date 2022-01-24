@@ -1,6 +1,8 @@
 #lang racket
 (require "state.rkt")
-(provide is-move-from-home
+(provide valid-moves
+         occupied-positions
+         is-move-from-home
          moves-from
          valid-moves-from
          is-move-blocked
@@ -20,6 +22,52 @@ end position is (last move)
 number of steps to get from start to end is length - 1
 
 |#
+
+(define (occupied-positions state)
+  (define (is-occupied pos) (not (equal? (vector-ref state pos) ".")))
+  (filter is-occupied (sequence->list 19)))
+
+(define (valid-moves-from-positions state positions)
+  (cond
+    [(null? positions) '()]
+    [else (append
+           (valid-moves-from state (first positions))
+           (valid-moves-from-positions state (rest positions)))]))
+  
+(define (valid-moves state)
+  (valid-moves-from-positions state (occupied-positions state)))
+
+(define (moves-from-18)
+  '((18 17 8 7 6 5 4 3 2 11 12)
+    (18 17 8 7 6 5 4 3 2 11)
+    (18 17 8 7 6 5 4 13 14)
+    (18 17 8 7 6 5 4 13)
+    (18 17 8 7 6 15 16)
+    (18 17 8 7 6 15)
+    (18 17)
+    (18 17 8 7 6 5 4 3 2 1 0)
+    (18 17 8 7 6 5 4 3 2 1)
+    (18 17 8 7 6 5 4 3)
+    (18 17 8 7 6 5)
+    (18 17 8 7)
+    (18 17 8 9)
+    (18 17 8 9 10)))
+
+(define (moves-from-17)
+  '((17 8 7 6 5 4 3 2 11 12)
+    (17 8 7 6 5 4 3 2 11)
+    (17 8 7 6 5 4 13 14)
+    (17 8 7 6 5 4 13)
+    (17 8 7 6 15 16)
+    (17 8 7 6 15)
+    (17 18)
+    (17 8 7 6 5 4 3 2 1 0)
+    (17 8 7 6 5 4 3 2 1)
+    (17 8 7 6 5 4 3)
+    (17 8 7 6 5)
+    (17 8 7)
+    (17 8 9)
+    (17 8 9 10)))
 
 (define (moves-from-16)
   '((16 15 6 5 4 3 2 11 12)
@@ -246,7 +294,11 @@ number of steps to get from start to end is length - 1
     [(11) (moves-from-11)]
     [(12) (moves-from-12)]
     [(13) (moves-from-13)]
-    [(14) (moves-from-14)]))
+    [(14) (moves-from-14)]
+    [(15) (moves-from-15)]
+    [(16) (moves-from-16)]
+    [(17) (moves-from-17)]
+    [(18) (moves-from-18)]))
 
 (define (from-val move)
   (first move))
@@ -286,11 +338,11 @@ number of steps to get from start to end is length - 1
          [end-pos (last move)]
          [h1-pos (home-1-pos moved-amiphod)]
          [h2-pos (home-2-pos moved-amiphod)]
-         [h2-occupied-by (vector-ref state h1-pos)])
+         [h2-occupied-by (vector-ref state h2-pos)])
   (or
      (= start-pos h2-pos)
-     (and (= start-pos h1-pos) (not (= end-pos h2-pos)) (= h2-occupied-by moved-amiphod))
-     (and (= start-pos h1-pos) (not (= end-pos h2-pos)) (= h2-occupied-by ".")))))
+     (and (= start-pos h1-pos) (not (= end-pos h2-pos)) (equal? h2-occupied-by moved-amiphod))
+     (and (= start-pos h1-pos) (not (= end-pos h2-pos)) (equal? h2-occupied-by ".")))))
 
 
 (define (is-valid-move state move)
