@@ -37,6 +37,7 @@ number of steps to get from start to end is length - 1
 (define (valid-moves state)
   (valid-moves-from-positions state (occupied-positions state)))
 
+
 (define (moves-from-18)
   '((18 17 8 7 6 5 4 3 2 11 12)
     (18 17 8 7 6 5 4 3 2 11)
