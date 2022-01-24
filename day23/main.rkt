@@ -16,7 +16,7 @@
 (define initial-state (string->state "...........BACDBCDA"))
 (define s initial-state)
 ;(define s2 (string->state "..............DBCDA"))
-(define m (moves-from 13))
+(define m (valid-moves s))
 (display-state s)
 
 

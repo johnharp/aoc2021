@@ -1,6 +1,7 @@
 #lang racket
 (require "state.rkt")
-(provide valid-moves
+(provide make-move
+         valid-moves
          occupied-positions
          is-move-from-home
          moves-from
@@ -16,7 +17,7 @@
       |  12   |  14   |  16   |  18   |
       +-------------------------------+
 
-A move is a list of positions with the starting index first, the ending index first
+A move is a list of positions with the starting index first, the ending index last
 therefore the start position is (first move)
 end position is (last move)
 number of steps to get from start to end is length - 1
@@ -352,3 +353,11 @@ number of steps to get from start to end is length - 1
 
 (define (valid-moves-from state n)
   (filter (curry is-valid-move state) (moves-from n)))
+
+(define (make-move state move)
+  (define (loc-val loc)
+    (cond
+      [(= loc (first move)) "."]
+      [(= loc (last move)) (vector-ref state (first move))]
+      [else (vector-ref state loc)]))
+  (build-vector 19 loc-val))
